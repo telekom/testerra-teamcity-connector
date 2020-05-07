@@ -27,6 +27,6 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity;
 public enum TeamCityBuildStatus {
 
     SUCCESS,
-    FAILED
+    FAILURE
 
 }

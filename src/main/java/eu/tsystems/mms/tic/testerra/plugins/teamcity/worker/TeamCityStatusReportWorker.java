@@ -54,13 +54,13 @@ public class TeamCityStatusReportWorker extends GenerateReportsWorker {
             if (FailureCorridor.isCorridorMatched()) {
                 messagePusher.updateBuildStatus(TeamCityBuildStatus.SUCCESS, statusMessage, false);
             } else {
-                messagePusher.updateBuildStatus(TeamCityBuildStatus.FAILED, statusMessage, false);
+                messagePusher.updateBuildStatus(TeamCityBuildStatus.FAILURE, statusMessage, false);
             }
         } else {
             if (TestStatusController.getTestsFailed() == 0) {
                 messagePusher.updateBuildStatus(TeamCityBuildStatus.SUCCESS, statusMessage, false);
             } else {
-                messagePusher.updateBuildStatus(TeamCityBuildStatus.FAILED, statusMessage, false);
+                messagePusher.updateBuildStatus(TeamCityBuildStatus.FAILURE, statusMessage, false);
             }
         }
     }
