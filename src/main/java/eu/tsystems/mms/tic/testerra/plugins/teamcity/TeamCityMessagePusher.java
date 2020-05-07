@@ -16,6 +16,8 @@
  */
 package eu.tsystems.mms.tic.testerra.plugins.teamcity;
 
+import eu.tsystems.mms.tic.testframework.logging.Loggable;
+
 /**
  * Provide methods to push teamcity log messages in a defined way.
  * <p>
@@ -24,7 +26,7 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity;
  *
  * @author Eric Kubenka
  */
-public class TeamCityMessagePusher {
+public class TeamCityMessagePusher implements Loggable {
 
     public void updateProgressMessage(final String message) {
 
@@ -44,6 +46,7 @@ public class TeamCityMessagePusher {
             teamCityMessage += "{build.status.text} ";
         }
         teamCityMessage += message + "']";
+        log().info(teamCityMessage);
         System.out.println(teamCityMessage);
     }
 
