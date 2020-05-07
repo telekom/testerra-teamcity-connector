@@ -24,8 +24,9 @@ import eu.tsystems.mms.tic.testframework.constants.TesterraProperties;
 import eu.tsystems.mms.tic.testframework.execution.testng.worker.GenerateReportsWorker;
 import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
-import eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController;
 import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
+
+import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.EXECUTION_CONTEXT;
 
 /**
  * Reports global build status to teamcity
@@ -42,25 +43,20 @@ public class TeamCityStatusReportWorker extends GenerateReportsWorker {
 
     @Override
     public void run() {
+        String statusMessage = ReportUtils.getReportName() + " " + EXECUTION_CONTEXT.runConfig.RUNCFG + ": ";
+        statusMessage += TestStatusController.getFinalCountersMessage() + " ";
 
         // There is a difference in build status depending on failure corridor active
         // If corridor is active, we have to get these values and if corridor matches, we report a success
         // If corridor is not active, we have to get the failed-test-counter. If it's equals ZERO, we can reeturn a success
         if (FAILURE_CORRIDOR_ACTIVE) {
-            String statusMessage = ReportUtils.getReportName() + " " + ExecutionContextController.EXECUTION_CONTEXT.runConfig + ": ";
-            statusMessage += TestStatusController.getFinalCountersMessage() + " ";
             statusMessage += FailureCorridor.getStatusMessage();
-
             if (FailureCorridor.isCorridorMatched()) {
                 messagePusher.updateBuildStatus(TeamCityBuildStatus.SUCCESS, statusMessage, false);
             } else {
                 messagePusher.updateBuildStatus(TeamCityBuildStatus.FAILED, statusMessage, false);
             }
         } else {
-
-            String statusMessage = ReportUtils.getReportName() + " " + ExecutionContextController.EXECUTION_CONTEXT.runConfig + ": ";
-            statusMessage += TestStatusController.getFinalCountersMessage() + " ";
-
             if (TestStatusController.getTestsFailed() == 0) {
                 messagePusher.updateBuildStatus(TeamCityBuildStatus.SUCCESS, statusMessage, false);
             } else {
