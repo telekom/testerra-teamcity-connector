@@ -18,6 +18,7 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity;
 
 /**
  * Provide methods to push teamcity log messages in a defined way.
+ * https://www.jetbrains.com/help/teamcity/build-script-interaction-with-teamcity.html#
  * <p>
  * Date: 07.05.2020
  * Time: 08:29
@@ -26,12 +27,25 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity;
  */
 public class TeamCityMessagePusher {
 
+
+    /**
+     * Updates TeamCity build progress by using sout messages in preformatted way.
+     *
+     * @param message {@link String} message to push
+     */
     public void updateProgressMessage(final String message) {
 
         final String teamCityMessage = "##teamcity[progressMessage '" + message + "']";
         System.out.println(teamCityMessage);
     }
 
+    /**
+     * Update general TeamCity build state with a message
+     *
+     * @param optionalBuildStatus {@link TeamCityBuildStatus} status to set
+     * @param message             {@link String} message to push
+     * @param enhance             Provide basic teamcity build info
+     */
     public void updateBuildStatus(final TeamCityBuildStatus optionalBuildStatus, final String message, final boolean enhance) {
 
         String teamCityMessage = "##teamcity[buildStatus ";
