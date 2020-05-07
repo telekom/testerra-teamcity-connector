@@ -11,6 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ *
  * Contributors:
  *      Eric Kubenka
  */
@@ -25,6 +26,7 @@ import eu.tsystems.mms.tic.testframework.report.TestStatusController;
 import eu.tsystems.mms.tic.testframework.report.model.context.MethodContext;
 import eu.tsystems.mms.tic.testframework.report.model.context.SynchronizableContext;
 import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
+import eu.tsystems.mms.tic.testframework.utils.StringUtils;
 
 import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.EXECUTION_CONTEXT;
 
@@ -51,7 +53,12 @@ public class TeamCityEventListener implements TesterraEventListener {
             final SynchronizableContext contextData = (SynchronizableContext) testerraEvent.getData().get(TesterraEventDataType.CONTEXT);
 
             if (contextData instanceof MethodContext) {
-                final String counterInfoMessage = TestStatusController.getCounterInfoMessage();
+                String counterInfoMessage = TestStatusController.getCounterInfoMessage();
+
+                if (StringUtils.isStringEmpty(counterInfoMessage)) {
+                    counterInfoMessage = "Running";
+                }
+
                 final String teamCityMessage = ReportUtils.getReportName() + " " + EXECUTION_CONTEXT.runConfig.RUNCFG + ": " + counterInfoMessage;
                 messagePusher.updateProgressMessage(teamCityMessage);
             }

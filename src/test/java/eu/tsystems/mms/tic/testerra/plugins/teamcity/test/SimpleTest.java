@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
  */
 public class SimpleTest extends TesterraTest {
 
-    private static final int TEST_DURATION = 6500;
+    private static final int TEST_DURATION = 10_000;
     private static final boolean FAIL_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.tests", true);
 
     @Test
