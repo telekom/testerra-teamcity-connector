@@ -37,7 +37,6 @@ public class SimpleTest extends TesterraTest {
     private static final int TEST_DURATION = 6500;
     private static final boolean FAIL_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.tests", true);
 
-
     @Test
     public void testT01_SimplePassedTest() {
         TimerUtils.sleep(TEST_DURATION);
