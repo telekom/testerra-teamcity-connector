@@ -39,16 +39,16 @@
 
     <profiles>
         <profile>
-            <id>myTests</id>
+            <id>test</id>
             <build>
                 <plugins>
                     <plugin>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
-                            <suiteXmlFiles>
-                                <suiteXmlFile>${project.build.testOutputDirectory}/suite.xml</suiteXmlFile>
-                            </suiteXmlFiles>
+                            <!--                            <suiteXmlFiles>-->
+                            <!--                                <suiteXmlFile>${project.build.testOutputDirectory}/suite.xml</suiteXmlFile>-->
+                            <!--                            </suiteXmlFiles>-->
                         </configuration>
                     </plugin>
                 </plugins>
