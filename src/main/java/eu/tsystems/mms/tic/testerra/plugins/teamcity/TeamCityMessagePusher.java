@@ -46,7 +46,7 @@ public class TeamCityMessagePusher implements Loggable {
             teamCityMessage += "{build.status.text} ";
         }
         teamCityMessage += message + "']";
-        log().info(teamCityMessage);
+        log().info(teamCityMessage.replace("##", ""));
         System.out.println(teamCityMessage);
     }
 
