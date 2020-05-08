@@ -26,7 +26,7 @@ import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
 import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
 
-import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.EXECUTION_CONTEXT;
+import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
 
 /**
  * Reports global build status to teamcity
@@ -43,7 +43,7 @@ public class TeamCityStatusReportWorker extends GenerateReportsWorker {
 
     @Override
     public void run() {
-        String statusMessage = ReportUtils.getReportName() + " " + EXECUTION_CONTEXT.runConfig.RUNCFG + ": ";
+        String statusMessage = ReportUtils.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": ";
         statusMessage += TestStatusController.getFinalCountersMessage() + " ";
 
         // There is a difference in build status depending on failure corridor active
