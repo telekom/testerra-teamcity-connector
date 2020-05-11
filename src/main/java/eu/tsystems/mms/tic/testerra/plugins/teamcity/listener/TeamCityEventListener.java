@@ -28,7 +28,7 @@ import eu.tsystems.mms.tic.testframework.report.model.context.SynchronizableCont
 import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
 import eu.tsystems.mms.tic.testframework.utils.StringUtils;
 
-import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.EXECUTION_CONTEXT;
+import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
 
 /**
  * Listener to react for method context update events
@@ -59,7 +59,7 @@ public class TeamCityEventListener implements TesterraEventListener {
                     counterInfoMessage = "Running";
                 }
 
-                final String teamCityMessage = ReportUtils.getReportName() + " " + EXECUTION_CONTEXT.runConfig.RUNCFG + ": " + counterInfoMessage;
+                final String teamCityMessage = ReportUtils.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " + counterInfoMessage;
                 messagePusher.updateProgressMessage(teamCityMessage);
             }
         }
