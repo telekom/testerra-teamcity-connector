@@ -1,16 +1,20 @@
+plugins {
+    id "com.jfrog.bintray" version "1.8.5"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-group 'eu.tsystems.mms.tic.testerra'
-version '1-SNAPSHOT'
+ext {
+    testerraVersion = '1.+'
+    moduleVersion = '1-SNAPSHOT'
+    if (System.properties.containsKey('moduleVersion')) {
+        moduleVersion = System.getProperty('moduleVersion')
+    }
 
-project.ext {
-    testerraVersion = '1-SNAPSHOT'
-}
-
-repositories {
-    mavenCentral()
+    group 'eu.tsystems.mms.tic.testerra'
+    version moduleVersion
 }
 
 dependencies {
@@ -21,25 +25,5 @@ test {
     useTestNG()
 }
 
-allprojects {
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                from components.java
-            }
-        }
-
-        repositories {
-            maven {
-                url System.getProperty("deployUrl", "none")
-                credentials {
-                    username System.getProperty("deployUsername", "none")
-                    password System.getProperty("deployPassword", "none")
-                }
-            }
-        }
-    }
-}
-
-
+apply from: rootProject.file('release-bintray.gradle')
