@@ -9,11 +9,13 @@ It will register automatically by using Testera `ModuleHook`.
 
 ## Usage
 
+The Testerra Selenoid Connector is published to a Bintray repository https://bintray.com/testerra-io.
+
 Include the following dependency in your project.
 
 Gradle:
 ````groovy
-implementation 'eu.tsystems.mms.tic.testerra:teamcity-connector:1-SNAPSHOT'
+implementation 'eu.tsystems.mms.tic.testerra:teamcity-connector:1.0'
 ````
 
 Maven:
@@ -21,7 +23,7 @@ Maven:
 <dependency>
     <groupId>eu.tsystems.mms.tic.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1.0</version>
 </dependency>
 ````
 
@@ -55,3 +57,30 @@ Maven:
         </plugins>
     </build>
 ````
+
+---
+
+## Publication
+
+### ... to a Maven repo
+
+```sh
+gradle publishToMavenLocal
+```
+or pass then properties via. CLI
+```sh
+gradle publish -DdeployUrl=<repo-url> -DdeployUsername=<repo-user> -DdeployPassword=<repo-password>
+```
+
+Set a custom version
+```shell script
+gradle publish -DmoduleVersion=<version>
+```
+
+### ... to Bintray
+
+Upload and publish this module to Bintray:
+
+````sh
+gradle bintrayUpload -DmoduleVersion=<version> -DBINTRAY_USER=<bintray-user> -DBINTRAY_API_KEY=<bintray-api-key>
+```` 
