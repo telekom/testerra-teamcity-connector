@@ -15,7 +15,11 @@
  * Contributors:
  *      Eric Kubenka
  */
+
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.listener;
+
+import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
+
 
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
 import eu.tsystems.mms.tic.testframework.events.TesterraEvent;
@@ -25,10 +29,7 @@ import eu.tsystems.mms.tic.testframework.events.TesterraEventType;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
 import eu.tsystems.mms.tic.testframework.report.model.context.MethodContext;
 import eu.tsystems.mms.tic.testframework.report.model.context.SynchronizableContext;
-import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
 import eu.tsystems.mms.tic.testframework.utils.StringUtils;
-
-import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
 
 /**
  * Listener to react for method context update events
@@ -59,7 +60,9 @@ public class TeamCityEventListener implements TesterraEventListener {
                     counterInfoMessage = "Running";
                 }
 
-                final String teamCityMessage = ReportUtils.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " + counterInfoMessage;
+                final String teamCityMessage =
+                        getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
+                                counterInfoMessage;
                 messagePusher.updateProgressMessage(teamCityMessage);
             }
         }

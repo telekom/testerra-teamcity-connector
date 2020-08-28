@@ -19,6 +19,7 @@ ext {
 
 dependencies {
     implementation 'eu.tsystems.mms.tic.testerra:core:' + testerraVersion
+    implementation 'eu.tsystems.mms.tic.testerra:report:' + testerraVersion
 }
 
 test {
