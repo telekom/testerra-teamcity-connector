@@ -25,8 +25,7 @@ import eu.tsystems.mms.tic.testframework.constants.TesterraProperties;
 import eu.tsystems.mms.tic.testframework.events.ExecutionEndEvent;
 import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
-
-import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
+import eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController;
 
 /**
  * Reports global build status to teamcity
@@ -44,7 +43,8 @@ public class TeamCityStatusReportWorker implements ExecutionEndEvent.Listener {
     @Override
     @Subscribe
     public void onExecutionEnd(ExecutionEndEvent event) {
-        String statusMessage = PropertyManager.getProperty(TesterraProperties.REPORTNAME) + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": ";
+        String statusMessage = ExecutionContextController.getCurrentExecutionContext().runConfig.getReportName() + " " +
+                ExecutionContextController.getCurrentExecutionContext().runConfig.RUNCFG + ": ";
         statusMessage += TestStatusController.getFinalCountersMessage() + " ";
 
         // There is a difference in build status depending on failure corridor active
