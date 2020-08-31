@@ -51,11 +51,10 @@ public class TeamCityEventListener implements ContextUpdateEvent.Listener {
                 counterInfoMessage = "Running";
             }
 
-                final String teamCityMessage =
-                        getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
-                                counterInfoMessage;
-                messagePusher.updateProgressMessage(teamCityMessage);
-            }
+            final String teamCityMessage =
+                    getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
+                            counterInfoMessage;
+            messagePusher.updateProgressMessage(teamCityMessage);
         }
     }
 }
