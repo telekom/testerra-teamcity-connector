@@ -17,14 +17,14 @@
 
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.worker;
 
+import com.google.common.eventbus.Subscribe;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityBuildStatus;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
 import eu.tsystems.mms.tic.testframework.common.PropertyManager;
 import eu.tsystems.mms.tic.testframework.constants.TesterraProperties;
-import eu.tsystems.mms.tic.testframework.execution.testng.worker.GenerateReportsWorker;
+import eu.tsystems.mms.tic.testframework.events.ExecutionEndEvent;
 import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
-import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
 
 import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
 
@@ -36,14 +36,15 @@ import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextCon
  *
  * @author Eric Kubenka
  */
-public class TeamCityStatusReportWorker extends GenerateReportsWorker {
+public class TeamCityStatusReportWorker implements ExecutionEndEvent.Listener {
 
     private static final TeamCityMessagePusher messagePusher = new TeamCityMessagePusher();
     private static final boolean FAILURE_CORRIDOR_ACTIVE = PropertyManager.getBooleanProperty(TesterraProperties.FAILURE_CORRIDOR_ACTIVE, false);
 
     @Override
-    public void run() {
-        String statusMessage = ReportUtils.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": ";
+    @Subscribe
+    public void onExecutionEnd(ExecutionEndEvent event) {
+        String statusMessage = PropertyManager.getProperty(TesterraProperties.REPORTNAME) + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": ";
         statusMessage += TestStatusController.getFinalCountersMessage() + " ";
 
         // There is a difference in build status depending on failure corridor active

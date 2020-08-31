@@ -16,9 +16,9 @@
  */
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.hooks;
 
+import com.google.common.eventbus.EventBus;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.listener.TeamCityEventListener;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.worker.TeamCityStatusReportWorker;
-import eu.tsystems.mms.tic.testframework.events.TesterraEventService;
 import eu.tsystems.mms.tic.testframework.hooks.ModuleHook;
 import eu.tsystems.mms.tic.testframework.report.TesterraListener;
 
@@ -35,8 +35,9 @@ public class TeamCityHook implements ModuleHook {
     @Override
     public void init() {
 
-        TesterraEventService.addListener(new TeamCityEventListener());
-        TesterraListener.registerGenerateReportsWorker(TeamCityStatusReportWorker.class);
+        EventBus eventBus = TesterraListener.getEventBus();
+        eventBus.register(new TeamCityEventListener());
+        eventBus.register(new TeamCityStatusReportWorker());
     }
 
     @Override

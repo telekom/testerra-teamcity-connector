@@ -17,15 +17,14 @@
  */
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.listener;
 
+import com.google.common.eventbus.Subscribe;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
-import eu.tsystems.mms.tic.testframework.events.TesterraEvent;
-import eu.tsystems.mms.tic.testframework.events.TesterraEventDataType;
-import eu.tsystems.mms.tic.testframework.events.TesterraEventListener;
-import eu.tsystems.mms.tic.testframework.events.TesterraEventType;
+import eu.tsystems.mms.tic.testframework.common.PropertyManager;
+import eu.tsystems.mms.tic.testframework.constants.TesterraProperties;
+import eu.tsystems.mms.tic.testframework.events.ContextUpdateEvent;
 import eu.tsystems.mms.tic.testframework.report.TestStatusController;
 import eu.tsystems.mms.tic.testframework.report.model.context.MethodContext;
 import eu.tsystems.mms.tic.testframework.report.model.context.SynchronizableContext;
-import eu.tsystems.mms.tic.testframework.report.utils.ReportUtils;
 import eu.tsystems.mms.tic.testframework.utils.StringUtils;
 
 import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
@@ -38,30 +37,24 @@ import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextCon
  *
  * @author Eric Kubenka
  */
-public class TeamCityEventListener implements TesterraEventListener {
+public class TeamCityEventListener implements ContextUpdateEvent.Listener {
 
     private static final TeamCityMessagePusher messagePusher = new TeamCityMessagePusher();
 
     @Override
-    public void fireEvent(TesterraEvent testerraEvent) {
+    @Subscribe
+    public void onContextUpdate(ContextUpdateEvent event) {
+        final SynchronizableContext contextData = event.getContext();
 
-        // this will check for context update events with method context assigned.
-        // then fire status message push, because status could probably change on method context
+        if (contextData instanceof MethodContext) {
+            String counterInfoMessage = TestStatusController.getCounterInfoMessage();
 
-        if (testerraEvent.getTesterraEventType().equals(TesterraEventType.CONTEXT_UPDATE)) {
-
-            final SynchronizableContext contextData = (SynchronizableContext) testerraEvent.getData().get(TesterraEventDataType.CONTEXT);
-
-            if (contextData instanceof MethodContext) {
-                String counterInfoMessage = TestStatusController.getCounterInfoMessage();
-
-                if (StringUtils.isStringEmpty(counterInfoMessage)) {
-                    counterInfoMessage = "Running";
-                }
-
-                final String teamCityMessage = ReportUtils.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " + counterInfoMessage;
-                messagePusher.updateProgressMessage(teamCityMessage);
+            if (StringUtils.isStringEmpty(counterInfoMessage)) {
+                counterInfoMessage = "Running";
             }
+
+            final String teamCityMessage = PropertyManager.getProperty(TesterraProperties.REPORTNAME) + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " + counterInfoMessage;
+            messagePusher.updateProgressMessage(teamCityMessage);
         }
     }
 }
