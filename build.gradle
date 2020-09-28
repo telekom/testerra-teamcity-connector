@@ -7,7 +7,10 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 ext {
-    testerraVersion = '[1.0-RC,2-SNAPSHOT)'
+    // Minimum required Testerra version
+    testerraCompileVersion = '1.0-RC-10'
+    // Unit tests use the latest Testerra version
+    testerraTestVersion = '[1.0-RC,2-SNAPSHOT)'
     moduleVersion = '1-SNAPSHOT'
     if (System.properties.containsKey('moduleVersion')) {
         moduleVersion = System.getProperty('moduleVersion')
@@ -18,8 +21,11 @@ ext {
 }
 
 dependencies {
-    implementation 'eu.tsystems.mms.tic.testerra:core:' + testerraVersion
-    implementation 'eu.tsystems.mms.tic.testerra:report:' + testerraVersion
+    compileOnly 'eu.tsystems.mms.tic.testerra:driver-ui-desktop:' + testerraCompileVersion
+    compileOnly 'eu.tsystems.mms.tic.testerra:report:' + testerraCompileVersion
+
+    testImplementation 'eu.tsystems.mms.tic.testerra:driver-ui-desktop:' + testerraTestVersion
+    testImplementation 'eu.tsystems.mms.tic.testerra:report:' + testerraTestVersion
 }
 
 test {
