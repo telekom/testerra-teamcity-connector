@@ -95,6 +95,8 @@ The following tables shows some more examples how the result could be.
 | ![](doc/teamcity_connector_result_failure_corr.png) | The Failure corridor was matched, the status is OK although a test failed.|
 | ![](doc/teamcity_connector_result_exp_failed.png) | A test was marked as expected failed, all other tests passed. The restult of the test run is still passed.|
 
+---
+
 ## Publication
 
 ### ... to a Maven repo
