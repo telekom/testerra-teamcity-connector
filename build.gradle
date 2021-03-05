@@ -1,7 +1,3 @@
-plugins {
-    id "com.jfrog.bintray" version "1.8.5"
-}
-
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
@@ -20,6 +16,9 @@ ext {
     version moduleVersion
 }
 
+// Do not move this integration because `group` and `version` is needed for publishing
+apply from: rootProject.file('publish.gradle')
+
 dependencies {
     compileOnly 'eu.tsystems.mms.tic.testerra:driver-ui-desktop:' + testerraCompileVersion
 
@@ -29,6 +28,3 @@ dependencies {
 test {
     useTestNG()
 }
-
-
-apply from: rootProject.file('release-bintray.gradle')
