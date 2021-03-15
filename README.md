@@ -89,8 +89,6 @@ Maven:
 </build>
 ````
 
----
-
 ### Impacts on TeamCity
 
 *Changes in TeamCity*
