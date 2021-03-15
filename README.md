@@ -7,9 +7,8 @@
 </p>
 
 <p align="center">
-  <a href="#installation">Installation</a> •
+  <a href="#setup">Setup</a> •
   <a href="#documentation">Documentation</a> •
-  <a href="#development">Development</a> •
   <a href="#support-and-feedback">Support</a> •
   <a href="#how-to-contribute">Contribute</a> •
   <a href="#contributors">Contributors</a> •
@@ -18,20 +17,28 @@
 
 ## About this module
 
-This module for Testerra framework provides a simple notification service for Jetbrains TeamCity. It uses the build script interaction of TeamCity to update build progress messages
+This module provides additional features to [Testerra Framework](https://github.com/telekom/testerra) for automated tests.
+
+This module provides a simple notification service for Jetbrains TeamCity. It uses the build script interaction of TeamCity to update build progress messages
 on test method updates and update general build status on report generation.
 It will register automatically by using the Testerra ModuleHook.
 
 ----
 
-## Usage
+## Setup
+
+### Requirements
+
+* Testerra in Version: `1.0-RC-29`
+
+### Usage
 
 Include the following dependency in your project.
 
 Gradle:
 
 ````groovy
-implementation 'eu.tsystems.mms.tic.testerra:teamcity-connector:1-SNAPSHOT'
+implementation 'eu.tsystems.mms.tic.testerra:teamcity-connector:1.0-RC-4'
 ````
 
 Maven:
@@ -41,17 +48,19 @@ Maven:
 <dependency>
     <groupId>eu.tsystems.mms.tic.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>1-SNAPSHOT</version>
+    <version>1.0-RC-4</version>
 </dependency>
 ````
 
-## TeamCity configuration
+## Documentation
+
+### TeamCity configuration
 
 Please ensure that you have `Failure Conditions > Common Failure Conditions > at least one test failed` deactivated on your TeamCity
 build configuration,  
 because TeamCity Connector will announce the build status on report generation based on test execution statistics.
 
-## Gradle / Maven configuration
+### Gradle / Maven configuration
 
 When using TeamCity Connector you have to ensure that Gradle/Maven will ignore test failures.
 
@@ -82,7 +91,7 @@ Maven:
 
 ---
 
-## Impacts on TeamCity
+### Impacts on TeamCity
 
 *Changes in TeamCity*
 
@@ -137,10 +146,6 @@ Some hints for using GitHub Packages as Maven repository
 
 * Deploy URL is https://maven.pkg.github.com/OWNER/REPOSITRY
 * As password generate an access token and grant permissions to ``write:packages`` (Settings -> Developer settings -> Personal access token)
-
-## Documentation
-
-Check out our comprehensive [Testerra documentation](http://docs.testerra.io)!
 
 ## Code of Conduct
 
