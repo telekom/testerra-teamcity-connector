@@ -4,15 +4,15 @@
 
 // Maven basis attributes
 ext {
-  libraryName = 'Testerra'
+  libraryName = 'Testerra TeamCity Connector'
   artifact = project.getName().toLowerCase()
   packagingType = 'jar'
 
   libraryDescription = "Testerra ${project.getName()} module"
 
   siteUrl = 'https://testerra.io'
-  gitUrl = 'https://github.com/telekom/testerra-selenoid-connector.git'
-  issueUrl = 'https://github.com/telekom/testerra-selenoid-connector/issues'
+  gitUrl = 'https://github.com/telekom/testerra-teamcity-connector.git'
+  issueUrl = 'https://github.com/telekom/testerra-teamcity-connector/issues'
 
   developerId = 'MMS'
   developerName = 'Testerra Team T-Systems MMS'

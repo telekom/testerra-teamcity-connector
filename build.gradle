@@ -12,7 +12,7 @@ ext {
         moduleVersion = System.getProperty('moduleVersion')
     }
 
-    group 'eu.tsystems.mms.tic.testerra'
+    group 'io.testerra'
     version moduleVersion
 }
 

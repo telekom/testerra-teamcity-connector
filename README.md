@@ -38,7 +38,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'eu.tsystems.mms.tic.testerra:teamcity-connector:1.0-RC-4'
+implementation 'io.testerra:teamcity-connector:1.0-RC-4'
 ````
 
 Maven:
@@ -46,7 +46,7 @@ Maven:
 ````xml
 
 <dependency>
-    <groupId>eu.tsystems.mms.tic.testerra</groupId>
+    <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
     <version>1.0-RC-4</version>
 </dependency>
