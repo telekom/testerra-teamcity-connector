@@ -2,7 +2,7 @@
  * Maven publishing configuration
  * */
 
-// Maven basis attributes
+// Maven pom.xml attributes
 ext {
     libraryName = 'Testerra TeamCity Connector'
     artifact = project.getName().toLowerCase()
@@ -11,57 +11,20 @@ ext {
     libraryDescription = "Testerra ${project.getName()} module"
 
     siteUrl = 'https://testerra.io'
-    gitUrl = 'https://github.com/telekom/testerra-teamcity-connector.git'
+    gitUrl = 'scm:git:git://github.com/telekom/testerra-teamcity-connector.git'
     issueUrl = 'https://github.com/telekom/testerra-teamcity-connector/issues'
 
     developerId = 'MMS'
     developerName = 'Testerra Team T-Systems MMS'
     developerEmail = 'testerra@t-systems-mms.com'
+    developerOrganization = 'T-Systems MMS'
+    developerOrganizationUrl = 'https://www.t-systems-mms.com/'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
 
-// Set up the Maven publication.
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom.project {
-            packaging packagingType
-            groupId group
-            artifactId artifact
-
-            // Add your description here
-            name libraryName
-            description libraryDescription
-            url siteUrl
-
-            // Set your license
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
-
-        }
-    }
-}
-
-// Publish to a Maven repository
 allprojects {
 
     publishing {
@@ -86,6 +49,40 @@ allprojects {
                 from components.java
                 artifact javadocJar
                 artifact sourcesJar
+
+                // Custom pom
+                pom {
+                    packaging = packagingType
+                    groupId = group
+                    artifactId = artifact
+
+                    name = libraryName
+                    description = libraryDescription
+                    url = siteUrl
+
+                    licenses {
+                        license {
+                            name = licenseName
+                            url = licenseUrl
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = developerId
+                            name = developerName
+                            email = developerEmail
+                            organization = developerOrganization
+                            organizationUrl = developerOrganizationUrl
+                        }
+                    }
+
+                    scm {
+                        connection = gitUrl
+                        developerConnection = gitUrl
+                        url = siteUrl
+                    }
+                }
             }
         }
 
@@ -109,7 +106,7 @@ allprojects {
                     beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
                 }
             }
-        }
 
+        }
     }
 }
