@@ -4,99 +4,112 @@
 
 // Maven basis attributes
 ext {
-  libraryName = 'Testerra TeamCity Connector'
-  artifact = project.getName().toLowerCase()
-  packagingType = 'jar'
+    libraryName = 'Testerra TeamCity Connector'
+    artifact = project.getName().toLowerCase()
+    packagingType = 'jar'
 
-  libraryDescription = "Testerra ${project.getName()} module"
+    libraryDescription = "Testerra ${project.getName()} module"
 
-  siteUrl = 'https://testerra.io'
-  gitUrl = 'https://github.com/telekom/testerra-teamcity-connector.git'
-  issueUrl = 'https://github.com/telekom/testerra-teamcity-connector/issues'
+    siteUrl = 'https://testerra.io'
+    gitUrl = 'https://github.com/telekom/testerra-teamcity-connector.git'
+    issueUrl = 'https://github.com/telekom/testerra-teamcity-connector/issues'
 
-  developerId = 'MMS'
-  developerName = 'Testerra Team T-Systems MMS'
-  developerEmail = 'testerra@t-systems-mms.com'
+    developerId = 'MMS'
+    developerName = 'Testerra Team T-Systems MMS'
+    developerEmail = 'testerra@t-systems-mms.com'
 
-  licenseName = 'The Apache Software License, Version 2.0'
-  licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-  allLicenses = ["Apache-2.0"]
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 // Set up the Maven publication.
 install {
-  repositories.mavenInstaller {
-    // This generates POM.xml with proper parameters
-    pom.project {
-      packaging packagingType
-      groupId group
-      artifactId artifact
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom.project {
+            packaging packagingType
+            groupId group
+            artifactId artifact
 
-      // Add your description here
-      name libraryName
-      description libraryDescription
-      url siteUrl
+            // Add your description here
+            name libraryName
+            description libraryDescription
+            url siteUrl
 
-      // Set your license
-      licenses {
-        license {
-          name licenseName
-          url licenseUrl
+            // Set your license
+            licenses {
+                license {
+                    name licenseName
+                    url licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id developerId
+                    name developerName
+                    email developerEmail
+                }
+            }
+            scm {
+                connection gitUrl
+                developerConnection gitUrl
+                url siteUrl
+            }
+
         }
-      }
-      developers {
-        developer {
-          id developerId
-          name developerName
-          email developerEmail
-        }
-      }
-      scm {
-        connection gitUrl
-        developerConnection gitUrl
-        url siteUrl
-      }
-
     }
-  }
 }
 
 // Publish to a Maven repository
 allprojects {
 
-  publishing {
+    publishing {
 
-    task sourcesJar(type: Jar, dependsOn: classes) {
-      archiveClassifier.set('sources')
-      from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar) {
-      archiveClassifier.set('javadoc')
-      from javadoc
-    }
-
-    artifacts {
-      archives sourcesJar
-      archives javadocJar
-    }
-
-    publications {
-      mavenJava(MavenPublication) {
-        from components.java
-        artifact javadocJar
-        artifact sourcesJar
-      }
-    }
-
-    repositories {
-      maven {
-        url System.getProperty("deployUrl", "none")
-        credentials {
-          username System.getProperty("deployUsername", "none")
-          password System.getProperty("deployPassword", "none")
+        task sourcesJar(type: Jar, dependsOn: classes) {
+            archiveClassifier.set('sources')
+            from sourceSets.main.allSource
         }
-      }
+
+        task javadocJar(type: Jar) {
+            archiveClassifier.set('javadoc')
+            from javadoc
+        }
+
+        artifacts {
+            archives sourcesJar
+            archives javadocJar
+        }
+
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact javadocJar
+                artifact sourcesJar
+            }
+        }
+
+        repositories {
+            maven {
+                url System.getProperty("deployUrl", "none")
+                credentials {
+                    username System.getProperty("deployUsername", "none")
+                    password System.getProperty("deployPassword", "none")
+                }
+            }
+        }
+
+        signing {
+            sign publishing.publications.mavenJava
+        }
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+                }
+            }
+        }
+
     }
-  }
 }
