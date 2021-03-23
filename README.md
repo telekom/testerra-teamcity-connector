@@ -1,7 +1,7 @@
 # Testerra TeamCity Connector
 
 <p align="center">
-    <a href="https://mvnrepository.com/artifact/io.testerra" title="MavenCentral"><img src="https://img.shields.io/maven-central/v/io.testerra/teamcity-connector?label=Maven%20Central"></a>
+    <a href="https://mvnrepository.com/artifact/io.testerra/teamcity-connector" title="MavenCentral"><img src="https://img.shields.io/maven-central/v/io.testerra/teamcity-connector?label=Maven%20Central"></a>
     <a href="/../../commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/telekom/testerra-teamcity-connector?style=flat"></a>
     <a href="/../../issues" title="Open Issues"><img src="https://img.shields.io/github/issues/telekom/testerra-teamcity-connector?style=flat"></a>
     <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=flat"></a>
@@ -30,7 +30,7 @@ It will register automatically by using the Testerra ModuleHook.
 
 ### Requirements
 
-![Maven Central with version prefix filter](https://img.shields.io/maven-central/v/io.testerra/core/1.0-RC-32?label=Testerra)
+![Maven Central](https://img.shields.io/maven-central/v/io.testerra/core/1.0-RC-32?label=Testerra)
 
 ### Usage
 
