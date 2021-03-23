@@ -137,7 +137,7 @@ The following properties have to be set via command line or ``~/.gradle/gradle.p
 | `signing.password`            | GPG private key password                            |
 | `signing.secretKeyRingFile`   | Path to GPG private key                             |
 
-If all properties are set, call the following to build, deploy and release Testerra:
+If all properties are set, call the following to build, deploy and release this module:
 ````shell
 gradle publish closeAndReleaseRepository
 ````
