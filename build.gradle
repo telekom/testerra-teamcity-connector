@@ -1,18 +1,24 @@
+plugins {
+    id "io.codearte.nexus-staging" version "0.30.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'io.codearte.nexus-staging'
 
 ext {
     // Minimum required Testerra version
     testerraCompileVersion = '2.0-RC-1'
     // Unit tests use the latest Testerra version
-    testerraTestVersion = '[2.0-RC,3-SNAPSHOT)'
+    testerraTestVersion = '[2.0,3-SNAPSHOT)'
     moduleVersion = '2-SNAPSHOT'
     if (System.properties.containsKey('moduleVersion')) {
         moduleVersion = System.getProperty('moduleVersion')
     }
 
-    group 'eu.tsystems.mms.tic.testerra'
+    group 'io.testerra'
     version moduleVersion
 }
 
@@ -20,9 +26,9 @@ ext {
 apply from: rootProject.file('publish.gradle')
 
 dependencies {
-    compileOnly 'eu.tsystems.mms.tic.testerra:driver-ui-desktop:' + testerraCompileVersion
+    compileOnly 'io.testerra:driver-ui-desktop:' + testerraCompileVersion
 
-    testImplementation 'eu.tsystems.mms.tic.testerra:driver-ui-desktop:' + testerraTestVersion
+    testImplementation 'io.testerra:driver-ui-desktop:' + testerraTestVersion
 }
 
 test {
