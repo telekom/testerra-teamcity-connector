@@ -33,7 +33,7 @@ It will register automatically by using the Testerra ModuleHook.
 
 ### Requirements
 
-![Maven Central](https://img.shields.io/maven-central/v/io.testerra/core/1.0-RC-32?label=Testerra)
+![Maven Central](https://img.shields.io/maven-central/v/io.testerra/core/2.0-RC-4?label=Testerra)
 
 ### Usage
 
