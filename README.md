@@ -32,6 +32,10 @@ It will register automatically by using the Testerra ModuleHook.
 
 ![Maven Central](https://img.shields.io/maven-central/v/io.testerra/core/1.0-RC-32?label=Testerra)
 
+| TeamCity connector   | Testerra      |
+| -------------------- | --------------|
+| `1.0`                | ` 1.0.0`      |
+
 ### Usage
 
 Include the following dependency in your project.
