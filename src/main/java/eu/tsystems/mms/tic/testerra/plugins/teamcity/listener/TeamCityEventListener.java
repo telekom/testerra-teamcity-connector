@@ -21,11 +21,9 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity.listener;
 import com.google.common.eventbus.Subscribe;
 import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
-import eu.tsystems.mms.tic.testframework.events.ContextUpdateEvent;
-import eu.tsystems.mms.tic.testframework.report.TestStatusController;
-import eu.tsystems.mms.tic.testframework.report.model.context.MethodContext;
-import eu.tsystems.mms.tic.testframework.report.model.context.SynchronizableContext;
-import eu.tsystems.mms.tic.testframework.utils.StringUtils;
+import eu.tsystems.mms.tic.testframework.events.TestStatusUpdateEvent;
+import eu.tsystems.mms.tic.testframework.report.TesterraListener;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Listener to react for method context update events
@@ -35,26 +33,22 @@ import eu.tsystems.mms.tic.testframework.utils.StringUtils;
  *
  * @author Eric Kubenka
  */
-public class TeamCityEventListener implements ContextUpdateEvent.Listener {
+public class TeamCityEventListener implements TestStatusUpdateEvent.Listener {
 
     private static final TeamCityMessagePusher messagePusher = new TeamCityMessagePusher();
 
     @Override
     @Subscribe
-    public void onContextUpdate(ContextUpdateEvent event) {
-        final SynchronizableContext contextData = event.getContext();
+    public void onTestStatusUpdate(TestStatusUpdateEvent event) {
+        String counterInfoMessage = TesterraListener.getTestStatusController().getCounterInfoMessage();
 
-        if (contextData instanceof MethodContext) {
-            String counterInfoMessage = TestStatusController.getCounterInfoMessage();
-
-            if (StringUtils.isStringEmpty(counterInfoMessage)) {
-                counterInfoMessage = "Running";
-            }
-
-            final String teamCityMessage =
-                    getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
-                            counterInfoMessage;
-            messagePusher.updateProgressMessage(teamCityMessage);
+        if (StringUtils.isBlank(counterInfoMessage)) {
+            counterInfoMessage = "Running";
         }
+
+        final String teamCityMessage =
+                getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
+                        counterInfoMessage;
+        messagePusher.updateProgressMessage(teamCityMessage);
     }
 }
