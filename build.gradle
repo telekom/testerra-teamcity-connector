@@ -28,6 +28,7 @@ dependencies {
     compileOnly 'io.testerra:driver-ui-desktop:' + testerraCompileVersion
 
     testImplementation 'io.testerra:driver-ui-desktop:' + testerraTestVersion
+    testImplementation 'io.testerra:report-ng:' + testerraTestVersion
 }
 
 test {

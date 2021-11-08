@@ -24,6 +24,8 @@ import eu.tsystems.mms.tic.testframework.utils.TimerUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Simple Tests for validating teamcity progess pushers
  * <p>
@@ -34,7 +36,7 @@ import org.testng.annotations.Test;
  */
 public class SimpleTest extends TesterraTest {
 
-    private static final int TEST_DURATION = 10_000;
+    private static final int TEST_DURATION = 2_000;
     private static final boolean FAIL_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.tests", true);
     private static final boolean FAIL_EXPECTED_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.expected.tests", true);
 
@@ -58,13 +60,33 @@ public class SimpleTest extends TesterraTest {
         }
     }
 
+    @Test(dependsOnMethods = {"testT03_SimpleFailedTest"})
+    public void testT04_SkippedTest() {
+        TimerUtils.sleep(TEST_DURATION);
+        Assert.assertTrue(true);
+    }
+
     @Test
     @Fails(ticketId = 1, description = "Failing for reasons")
-    public void testT04_SimpleExpectedFailedTest() {
+    public void testT05_SimpleExpectedFailedTest() {
         TimerUtils.sleep(TEST_DURATION);
         if (FAIL_EXPECTED_TESTS) {
             Assert.fail("Failing for reasons...");
         }
+    }
+
+    AtomicInteger counter = new AtomicInteger(0);
+
+    @Test()
+    public void testT06_RetriedTestSecondRunPassed() {
+        this.counter.incrementAndGet();
+        if (counter.get() == 1) {
+            // Message is already defined in test.properties
+            Assert.assertTrue(false, "testT05_RetriedTestSecondRunPassed");
+        } else {
+            Assert.assertTrue(true);
+        }
+
     }
 
 }
