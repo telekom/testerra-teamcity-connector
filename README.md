@@ -32,7 +32,8 @@ It will register automatically by using the Testerra ModuleHook.
 
 | TeamCity connector   | Testerra      |
 | -------------------- | --------------|
-| `1.0`                | ` 1.0.0`      |
+| `1.0`                | `1.0.0..1.8`      |
+| `1.1`                | `1.9`      |
 
 ### Usage
 
