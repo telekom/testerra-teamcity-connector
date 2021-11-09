@@ -37,6 +37,7 @@ It will register automatically by using the Testerra ModuleHook.
 | -------------------- | --------------|
 | `1.0`                | `1.0.0..1.8`      |
 | `1.1`                | `1.9`      |
+| `2.0-RC-2`           | `2.0-RC-19` |
 
 ### Usage
 
