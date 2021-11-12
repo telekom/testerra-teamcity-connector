@@ -28,6 +28,9 @@ dependencies {
     compileOnly 'io.testerra:driver-ui-desktop:' + testerraCompileVersion
 
     testImplementation 'io.testerra:driver-ui-desktop:' + testerraTestVersion
+    testImplementation 'io.testerra:report-ng:' + testerraTestVersion
+    // Capture System.out.println
+    testImplementation 'io.github.hakky54:consolecaptor:1.0.2'
 }
 
 test {
