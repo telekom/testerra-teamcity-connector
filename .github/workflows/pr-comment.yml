@@ -70,6 +70,13 @@ jobs:
           event_name: ${{ github.event.workflow_run.event }}
           files: "artifacts/**/TEST-Results.xml"
 
+      - name: Deploy report page
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./artifacts/testerra_results
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
 
 #      - name: 'Comment on PR'
 #        uses: actions/github-script@v3
