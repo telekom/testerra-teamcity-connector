@@ -29,10 +29,18 @@ jobs:
     - name: Build with Gradle
       run: gradle test
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: 'Testerra results'
-        path: test-report/
+    - name: Publish Test Report
+      uses: starburstdata/action-testng-report@v1
+        with:
+          report_paths: test-report/xml/testng-results.xml
+          show_skipped: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    # Can only downloaded as a ZIP
+#    - uses: actions/upload-artifact@v2
+#      with:
+#        name: 'Testerra results'
+#        path: test-report/
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
