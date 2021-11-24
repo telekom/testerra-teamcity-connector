@@ -1,3 +1,4 @@
+# Add comments to PRs
 name: Comment on the pull request
 
 # read-write repo token
