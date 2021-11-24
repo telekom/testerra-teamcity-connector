@@ -78,6 +78,32 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
+      - id: get_pr_id
+        run: |
+          content=`cat ./artifacts/event_file/event.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'n'/'%0A'}"
+          content="${content//$'r'/'%0D'}"
+          # end of optional handling for multi line json
+#          echo "::set-output name=eventjson::$content"
+          echo "${{fromJson(content).action}}"
+
+
+      # - run: |
+      #  echo "${{fromJson(steps.get_pr_id.outputs.eventjson).action}}"
+#      - name: Add report link
+#        uses: actions/github-script@v5
+#        with:
+#          script: |
+#
+#            github.rest.issues.createComment({
+#              issue_number: context.issue.number,
+#              owner: context.repo.owner,
+#              repo: context.repo.repo,
+#              body: '👋 Thanks for reporting!'
+#            })
+
 #      - name: 'Comment on PR'
 #        uses: actions/github-script@v3
 #        with:
