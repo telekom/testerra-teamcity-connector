@@ -87,7 +87,7 @@ jobs:
           content="${content//$'r'/'%0D'}"
           # end of optional handling for multi line json
           # echo "::set-output name=eventjson::$content"
-          echo "${{fromJson(content).action}}"
+          echo "${{fromJson(${content}).action}}"
 
 
 #      - run: |
