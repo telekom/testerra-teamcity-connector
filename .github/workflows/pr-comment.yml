@@ -86,12 +86,12 @@ jobs:
           content="${content//$'n'/'%0A'}"
           content="${content//$'r'/'%0D'}"
           # end of optional handling for multi line json
-#          echo "::set-output name=eventjson::$content"
+          # echo "::set-output name=eventjson::$content"
           echo "${{fromJson(content).action}}"
 
 
-      # - run: |
-      #  echo "${{fromJson(steps.get_pr_id.outputs.eventjson).action}}"
+#      - run: |
+#        echo "${{fromJson(steps.get_pr_id.outputs.eventjson).action}}"
 #      - name: Add report link
 #        uses: actions/github-script@v5
 #        with:
