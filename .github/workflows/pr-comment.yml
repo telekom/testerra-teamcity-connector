@@ -78,12 +78,14 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
+
+#            var fs = require('fs');
+#            fs.readFileSync('./artifacts/event_file/event.json')
+
       - name: Add report link
         uses: actions/github-script@v5
         with:
           script: |
-#            var fs = require('fs');
-#            fs.readFileSync('./artifacts/event_file/event.json')
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
