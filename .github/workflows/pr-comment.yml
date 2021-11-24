@@ -66,9 +66,9 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           commit: ${{ github.event.workflow_run.head_sha }}
-          event_file: "event_file/event.json"
+          event_file: "artifacts/event_file/event.json"
           event_name: ${{ github.event.workflow_run.event }}
-          files: "Testerra_results/**/TEST-Results.xml.xml"
+          files: "artifacts/**/TEST-Results.xml"
 
 
 #      - name: 'Comment on PR'
