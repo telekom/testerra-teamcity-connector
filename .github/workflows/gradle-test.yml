@@ -30,7 +30,7 @@ jobs:
       run: gradle test
 
     - name: Publish Test Report
-      uses: starburstdata/action-testng-report@v1
+      uses: starburstdata/action-testng-report
       with:
         report_paths: 'test-report/xml/testng-results.xml'
         show_skipped: true
