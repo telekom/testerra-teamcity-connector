@@ -34,7 +34,8 @@ jobs:
       with:
         report_paths: 'test-report/xml/testng-results.xml'
         show_skipped: true
-        github_token: ${{ GITHUB_TOKEN }}
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.WRITE_TOKEN }}
 
     # Can only downloaded as a ZIP
 #    - uses: actions/upload-artifact@v2
