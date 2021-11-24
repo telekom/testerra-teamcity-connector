@@ -38,6 +38,12 @@ jobs:
 #        show_skipped: true
 #        github_token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Upload event file
+      uses: actions/upload-artifact@v2
+      with:
+        name: event_file
+        path: ${{ github.event_path }}
+
     - uses: actions/upload-artifact@v2
       with:
         name: 'Testerra_results'
