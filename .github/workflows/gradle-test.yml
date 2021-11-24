@@ -4,14 +4,14 @@
 name: TeamCity connector test
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - master
 
-permissions:
-  actions: read
-  contents: read
-  pull-requests: write
+#permissions:
+#  actions: read
+#  contents: read
+#  pull-requests: write
 
 jobs:
   test:
