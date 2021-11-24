@@ -34,5 +34,18 @@ dependencies {
 }
 
 test {
-    useTestNG()
+    useTestNG() {
+        suites 'src/test/resources/suite.xml'
+    }
+
+    testLogging {
+        outputs.upToDateWhen { false }
+        showStandardStreams = true
+    }
+
+    options {
+        systemProperties(System.getProperties())
+    }
+
+    ignoreFailures = true
 }
