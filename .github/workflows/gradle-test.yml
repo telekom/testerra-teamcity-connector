@@ -46,7 +46,7 @@ jobs:
 
     - uses: actions/upload-artifact@v2
       with:
-        name: 'Testerra_results'
+        name: 'testerra_results'
         path: test-report/
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
