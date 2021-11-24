@@ -31,10 +31,10 @@ jobs:
 
     - name: Publish Test Report
       uses: starburstdata/action-testng-report@v1
-        with:
-          report_paths: 'test-report/xml/testng-results.xml'
-          show_skipped: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        report_paths: 'test-report/xml/testng-results.xml'
+        show_skipped: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     # Can only downloaded as a ZIP
 #    - uses: actions/upload-artifact@v2
