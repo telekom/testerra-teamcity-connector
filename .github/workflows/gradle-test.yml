@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
     permissions:
@@ -34,7 +34,7 @@ jobs:
       with:
         report_paths: 'test-report/xml/testng-results.xml'
         show_skipped: true
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ GITHUB_TOKEN }}
 
     # Can only downloaded as a ZIP
 #    - uses: actions/upload-artifact@v2
