@@ -29,6 +29,11 @@ jobs:
     - name: Build with Gradle
       run: gradle test
 
+    - uses: actions/upload-artifact@v2
+      with:
+        name: 'Testerra results'
+        path: test-report/
+
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
 #     - name: Publish to GitHub Packages
