@@ -78,7 +78,7 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # It's working!
+      # It's working, but with additional plugin!
 #      - name: Get PR issue number
 #        id: format_script
 #        uses: notiz-dev/github-action-json-property@release
@@ -90,22 +90,21 @@ jobs:
         id: format_script
         run: |
            githubjson=`cat artifacts/event_file/event.json`
-           echo $githubjson
            number=`echo $(jq -r '.pull_request.number' <<< "$githubjson")`
            echo ::set-output name=prop::"${number}"
 
-      - run: echo ${{steps.format_script.outputs.prop}}
+#      - run: echo ${{steps.format_script.outputs.prop}}
 
-#      - name: Add report link
-#        uses: actions/github-script@v5
-#        with:
-#          script: |
-#            github.rest.issues.createComment({
-#              issue_number: context.issue.number,
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              body: '👋 Thanks for reporting!'
-#            })
+      - name: Add report link
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: ${{steps.format_script.outputs.prop}},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '[Testerra result](https://martingrossmann.github.io/testerra-teamcity-connector/report-ng/index.html)'
+            })
 
 #      - name: 'Comment on PR'
 #        uses: actions/github-script@v3
