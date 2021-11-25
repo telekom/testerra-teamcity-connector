@@ -44,7 +44,8 @@ jobs:
         name: event_file
         path: ${{ github.event_path }}
 
-    - uses: actions/upload-artifact@v2
+    - name: Upload Testerra results
+      uses: actions/upload-artifact@v2
       with:
         name: 'testerra_results'
         path: test-report/
