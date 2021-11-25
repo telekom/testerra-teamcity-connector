@@ -90,16 +90,20 @@ jobs:
         id: format_script
         run: |
            githubjson=`cat artifacts/event_file/event.json`
-           number=`echo $(jq -r '.pull_request.number' <<< "$githubjson")`
-           echo ::set-output name=prop::"${number}"
+           prnumber=`echo $(jq -r '.pull_request.number' <<< "$githubjson")`
+           reponame=`echo $(jq -r '.repository.name' <<< "$githubjson")`
+           ghproject=`echo $(jq -r '.repository.owner.login' <<< "$githubjson")`
+           echo ::set-output name=prnumber::"${prnumber}"
+           echo ::set-output name=reponame::"${reponame}"
+           echo ::set-output name=ghproject::"${ghproject}"
 
       - name: Add report link
         uses: actions/github-script@v5
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: ${{steps.format_script.outputs.prop}},
+              issue_number: ${{steps.format_script.outputs.prnumber}},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '🧪 Check out the [Testerra results](https://martingrossmann.github.io/testerra-teamcity-connector/report-ng/index.html) of unit test.'
+              body: '🧪 Check out the [Testerra results](https://${{steps.format_script.outputs.ghproject}}.github.io/${{steps.format_script.outputs.reponame}}/report-ng/index.html) of unit test.'
             })
