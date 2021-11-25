@@ -78,34 +78,28 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Get PR issue number
+      # It's working!
+#      - name: Get PR issue number
+#        id: format_script
+#        uses: notiz-dev/github-action-json-property@release
+#        with:
+#          path: 'artifacts/event_file/event.json'
+#          prop_path: 'pull_request.number'
+
+      - name: fetch the json value
         id: format_script
-        uses: notiz-dev/github-action-json-property@release
-        with:
-          path: 'artifacts/event_file/event.json'
-          prop_path: 'pull_request.number'
+        run: |
+           githubjson=`cat artifacts/event_file/event.json`
+           echo $githubjson
+           number=`echo $(jq -r '.pull_request.number' <<< "$githubjson")`
+           echo ::set-output name=prop::"${number}"
 
       - run: echo ${{steps.format_script.outputs.prop}}
 
-#      - id: get_pr_id
-#        run: |
-#          content=`cat ./artifacts/event_file/event.json`
-#          # the following lines are only required for multi line json
-#          content="${content//'%'/'%25'}"
-#          content="${content//$'n'/'%0A'}"
-#          content="${content//$'r'/'%0D'}"
-#          # end of optional handling for multi line json
-#          # echo "::set-output name=eventjson::$content"
-#          echo "${{fromJson(${content}).action}}"
-
-
-#      - run: |
-#        echo "${{fromJson(steps.get_pr_id.outputs.eventjson).action}}"
 #      - name: Add report link
 #        uses: actions/github-script@v5
 #        with:
 #          script: |
-#
 #            github.rest.issues.createComment({
 #              issue_number: context.issue.number,
 #              owner: context.repo.owner,
