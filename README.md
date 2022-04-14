@@ -25,19 +25,16 @@ on test method updates and update general build status on report generation.
 It will register automatically by using the Testerra ModuleHook.
 
 ----
-## Requirements
-
-* Testerra in Version `2.0-RC-1`
 
 ## Setup
 
 ### Requirements
 
-| TeamCity connector   | Testerra      |
-| -------------------- | --------------|
-| `1.0`                | `1.0.0..1.8`      |
-| `1.1`                | `1.9`      |
-| `2.0-RC-2`           | `2.0-RC-19` |
+| TeamCity connector | Testerra       |
+|--------------------|----------------|
+| `1.0`              | `1.0.0..1.8`   |
+| `1.1`              | `1.9`          |
+| `2.0-RC-2`         | `>= 2.0-RC-19` |
 
 ### Usage
 
@@ -46,7 +43,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'io.testerra:teamcity-connector:2.0-RC-1'
+implementation 'io.testerra:teamcity-connector:2.0-RC-2'
 ````
 
 Maven:
@@ -56,7 +53,7 @@ Maven:
 <dependency>
     <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>2.0-RC-1</version>
+    <version>2.0-RC-2</version>
 </dependency>
 ````
 
