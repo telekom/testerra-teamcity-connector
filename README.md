@@ -1,4 +1,4 @@
-# Testerra TeamCity Connector
+# TeamCity Connector
 
 <p align="center">
     <a href="https://mvnrepository.com/artifact/io.testerra/teamcity-connector" title="MavenCentral"><img src="https://img.shields.io/maven-central/v/io.testerra/teamcity-connector/1?label=Maven%20Central"></a>
@@ -30,10 +30,11 @@ It will register automatically by using the Testerra ModuleHook.
 
 ### Requirements
 
-| TeamCity connector   | Testerra      |
-| -------------------- | --------------|
-| `1.0`                | `1.0.0..1.8`      |
-| `1.1`                | `1.9`      |
+| TeamCity connector | Testerra       |
+|--------------------|----------------|
+| `1.0`              | `1.0.0..1.8`   |
+| `1.1`              | `1.9`          |
+| `2.0-RC-2`         | `>= 2.0-RC-19` |
 
 ### Usage
 
@@ -42,7 +43,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'io.testerra:teamcity-connector:1.0'
+implementation 'io.testerra:teamcity-connector:2.0-RC-2'
 ````
 
 Maven:
@@ -52,7 +53,7 @@ Maven:
 <dependency>
     <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>1.0</version>
+    <version>2.0-RC-2</version>
 </dependency>
 ````
 

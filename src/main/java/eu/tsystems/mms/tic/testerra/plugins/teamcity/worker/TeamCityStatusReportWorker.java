@@ -20,11 +20,10 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity.worker;
 import com.google.common.eventbus.Subscribe;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityBuildStatus;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
-import eu.tsystems.mms.tic.testframework.common.PropertyManager;
-import eu.tsystems.mms.tic.testframework.constants.TesterraProperties;
+import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.events.ExecutionFinishEvent;
 import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
-import eu.tsystems.mms.tic.testframework.report.TestStatusController;
+import eu.tsystems.mms.tic.testframework.report.ITestStatusController;
 import eu.tsystems.mms.tic.testframework.report.TesterraListener;
 import eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController;
 
@@ -39,12 +38,12 @@ import eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController
 public class TeamCityStatusReportWorker implements ExecutionFinishEvent.Listener {
 
     private static final TeamCityMessagePusher messagePusher = new TeamCityMessagePusher();
-    private static final boolean FAILURE_CORRIDOR_ACTIVE = PropertyManager.getBooleanProperty(TesterraProperties.FAILURE_CORRIDOR_ACTIVE, false);
+    private static final boolean FAILURE_CORRIDOR_ACTIVE = Testerra.Properties.FAILURE_CORRIDOR_ACTIVE.asBool();
 
     @Override
     @Subscribe
     public void onExecutionFinish(ExecutionFinishEvent event) {
-        TestStatusController testStatusController = TesterraListener.getTestStatusController();
+        ITestStatusController testStatusController = TesterraListener.getTestStatusController();
 
         String statusMessage = ExecutionContextController.getCurrentExecutionContext().runConfig.getReportName() + " " +
                 ExecutionContextController.getCurrentExecutionContext().runConfig.RUNCFG + ": ";
