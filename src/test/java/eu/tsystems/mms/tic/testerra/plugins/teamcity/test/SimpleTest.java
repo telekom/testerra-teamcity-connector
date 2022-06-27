@@ -103,14 +103,14 @@ public class SimpleTest extends TesterraTest {
         List<String> standardOutput = consoleCaptor.getStandardOutput();
 
         // Assert all printed TeamCity messages
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: Running']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 2 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Failed, 2 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Failed, 1 Skipped, 2 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
-        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test Report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 3 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: Running']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 3 Passed']"));
 
     }
 

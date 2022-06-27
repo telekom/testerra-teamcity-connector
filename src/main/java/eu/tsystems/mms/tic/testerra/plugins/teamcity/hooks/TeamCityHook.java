@@ -20,8 +20,8 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.listener.TeamCityEventListener;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.worker.TeamCityStatusReportWorker;
+import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.hooks.ModuleHook;
-import eu.tsystems.mms.tic.testframework.report.TesterraListener;
 
 /**
  * Registering Workers for pushing status messages to teamcity while running a testerra test job
@@ -36,7 +36,7 @@ public class TeamCityHook extends AbstractModule implements ModuleHook {
     @Override
     public void init() {
 
-        EventBus eventBus = TesterraListener.getEventBus();
+        EventBus eventBus = Testerra.getEventBus();
         eventBus.register(new TeamCityEventListener());
         eventBus.register(new TeamCityStatusReportWorker());
     }

@@ -1,7 +1,7 @@
 # TeamCity Connector
 
 <p align="center">
-    <a href="https://mvnrepository.com/artifact/io.testerra/teamcity-connector" title="MavenCentral"><img src="https://img.shields.io/maven-central/v/io.testerra/teamcity-connector/1?label=Maven%20Central"></a>
+    <a href="https://mvnrepository.com/artifact/io.testerra/teamcity-connector" title="MavenCentral"><img src="https://img.shields.io/maven-central/v/io.testerra/teamcity-connector/2?label=Maven%20Central"></a>
     <a href="/../../commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/telekom/testerra-teamcity-connector?style=flat"></a>
     <a href="/../../issues" title="Open Issues"><img src="https://img.shields.io/github/issues/telekom/testerra-teamcity-connector?style=flat"></a>
     <a href="./LICENSE" title="License"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg?style=flat"></a>
@@ -35,6 +35,7 @@ It will register automatically by using the Testerra ModuleHook.
 | `1.0`              | `1.0.0..1.8`   |
 | `1.1`              | `1.9`          |
 | `2.0-RC-2`         | `>= 2.0-RC-19` |
+| `2.0`              | `>= 2.0`       |
 
 ### Usage
 
@@ -43,7 +44,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'io.testerra:teamcity-connector:2.0-RC-2'
+implementation 'io.testerra:teamcity-connector:2.0'
 ````
 
 Maven:
@@ -53,7 +54,7 @@ Maven:
 <dependency>
     <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>2.0-RC-2</version>
+    <version>2.0</version>
 </dependency>
 ````
 

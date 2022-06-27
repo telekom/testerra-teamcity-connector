@@ -19,10 +19,16 @@
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.listener;
 
 import com.google.common.eventbus.Subscribe;
+
 import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
+
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
+import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.events.TestStatusUpdateEvent;
+import eu.tsystems.mms.tic.testframework.report.ITestStatusController;
 import eu.tsystems.mms.tic.testframework.report.TesterraListener;
+import eu.tsystems.mms.tic.testframework.report.model.context.RunConfig;
+import eu.tsystems.mms.tic.testframework.report.utils.IExecutionContextController;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -40,15 +46,17 @@ public class TeamCityEventListener implements TestStatusUpdateEvent.Listener {
     @Override
     @Subscribe
     public void onTestStatusUpdate(TestStatusUpdateEvent event) {
-        String counterInfoMessage = TesterraListener.getTestStatusController().getCounterInfoMessage();
+        ITestStatusController statusController = Testerra.getInjector().getInstance(ITestStatusController.class);
+        IExecutionContextController executionContextController = Testerra.getInjector().getInstance(IExecutionContextController.class);
+
+        String counterInfoMessage = statusController.getCounterInfoMessage();
 
         if (StringUtils.isBlank(counterInfoMessage)) {
             counterInfoMessage = "Running";
         }
 
-        final String teamCityMessage =
-                getCurrentExecutionContext().runConfig.getReportName() + " " + getCurrentExecutionContext().runConfig.RUNCFG + ": " +
-                        counterInfoMessage;
+        RunConfig runConfig = executionContextController.getExecutionContext().getRunConfig();
+        final String teamCityMessage = runConfig.getReportName() + " " + runConfig.RUNCFG + ": " + counterInfoMessage;
         messagePusher.updateProgressMessage(teamCityMessage);
     }
 }
