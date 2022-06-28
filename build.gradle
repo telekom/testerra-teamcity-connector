@@ -9,7 +9,7 @@ apply plugin: 'io.codearte.nexus-staging'
 
 ext {
     // Minimum required Testerra version
-    testerraCompileVersion = '2-SNAPSHOT'
+    testerraCompileVersion = '2.0'
     // Unit tests use the latest Testerra version
     testerraTestVersion = '[2,3-SNAPSHOT)'
     moduleVersion = '2-SNAPSHOT'
@@ -28,6 +28,9 @@ dependencies {
     compileOnly 'io.testerra:driver-ui-desktop:' + testerraCompileVersion
 
     testImplementation 'io.testerra:driver-ui-desktop:' + testerraTestVersion
+    testImplementation 'io.testerra:report-ng:' + testerraTestVersion
+    // Capture System.out.println
+    testImplementation 'io.github.hakky54:consolecaptor:1.0.2'
 }
 
 test {

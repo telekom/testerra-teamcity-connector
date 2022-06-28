@@ -12,59 +12,106 @@
  * limitations under the License.
  *
  * Contributors:
- *       Eric Kubenka
+ *       Martin Großmann
  */
 
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.test;
 
 import eu.tsystems.mms.tic.testframework.annotations.Fails;
-import eu.tsystems.mms.tic.testframework.common.PropertyManager;
 import eu.tsystems.mms.tic.testframework.testing.TesterraTest;
 import eu.tsystems.mms.tic.testframework.utils.TimerUtils;
+import nl.altindag.console.ConsoleCaptor;
 import org.testng.Assert;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Simple Tests for validating teamcity progess pushers
  * <p>
- * Date: 07.05.2020
- * Time: 09:40
+ * This tests should results as follows:
+ * <p>
+ * *** Stats: Test Methods Count: 8 (7 relevant)
+ * *** Stats: Failed: 1
+ * *** Stats: Retried: 1
+ * *** Stats: Expected Failed: 1
+ * *** Stats: Skipped: 1
+ * *** Stats: Passed: 4 ? Recovered: 1
  *
- * @author Eric Kubenka
+ * @author Martin Großmann
  */
 public class SimpleTest extends TesterraTest {
 
-    private static final int TEST_DURATION = 10_000;
-    private static final boolean FAIL_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.tests", true);
-    private static final boolean FAIL_EXPECTED_TESTS = PropertyManager.getBooleanProperty("test.execution.fail.expected.tests", true);
+    private static final int TEST_DURATION = 1_000;
 
-    @Test
+    private static ConsoleCaptor consoleCaptor;
+
+    @BeforeSuite
+    public void beforeSuite() {
+        consoleCaptor = new ConsoleCaptor();
+    }
+
+    @Test(priority = 1)
     public void testT01_SimplePassedTest() {
         TimerUtils.sleep(TEST_DURATION);
         Assert.assertTrue(true);
     }
 
-    @Test
+    @Test(priority = 2)
     public void testT02_SimplePassedTest() {
         TimerUtils.sleep(TEST_DURATION);
         Assert.assertTrue(true);
     }
 
-    @Test
+    @Test(priority = 3)
     public void testT03_SimpleFailedTest() {
         TimerUtils.sleep(TEST_DURATION);
-        if (FAIL_TESTS) {
-            Assert.fail("Failing for reasons");
-        }
+        Assert.fail("Failing for reasons");
     }
 
-    @Test
-    @Fails(ticketId = 1, description = "Failing for reasons")
-    public void testT04_SimpleExpectedFailedTest() {
+    @Test(dependsOnMethods = {"testT03_SimpleFailedTest"}, priority = 4)
+    public void testT04_SkippedTest() {
         TimerUtils.sleep(TEST_DURATION);
-        if (FAIL_EXPECTED_TESTS) {
-            Assert.fail("Failing for reasons...");
+        Assert.assertTrue(true);
+    }
+
+    @Test(priority = 5)
+    @Fails(ticketString = "ticket1", description = "Failing for reasons")
+    public void testT05_SimpleExpectedFailedTest() {
+        TimerUtils.sleep(TEST_DURATION);
+        Assert.fail("Failing for reasons...");
+    }
+
+    AtomicInteger counter = new AtomicInteger(0);
+
+    @Test(priority = 6)
+    public void testT06_RetriedTestSecondRunPassed() {
+        this.counter.incrementAndGet();
+        if (counter.get() == 1) {
+            // Message is already defined in test.properties
+            Assert.assertTrue(false, "testT05_RetriedTestSecondRunPassed");
+        } else {
+            Assert.assertTrue(true);
         }
+
+    }
+
+    @Test(priority = 999)
+    public void test07_VerifyTeamCityMessages() {
+        List<String> standardOutput = consoleCaptor.getStandardOutput();
+
+        // Assert all printed TeamCity messages
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: Running']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 2 Passed']"));
+        Assert.assertTrue(standardOutput.contains("##teamcity[progressMessage 'Test report tcc-test: 1 Retried, 1 Failed, 1 Expected Failed, 1 Skipped, 3 Passed']"));
+
     }
 
 }
