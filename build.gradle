@@ -11,7 +11,8 @@ ext {
     // Minimum required Testerra version
     testerraCompileVersion = '2.0'
     // Unit tests use the latest Testerra version
-    testerraTestVersion = '[2,3-SNAPSHOT)'
+//    testerraTestVersion = '[2,3-SNAPSHOT)'
+    testerraTestVersion = '2-hist-SNAPSHOT'
     moduleVersion = '2-SNAPSHOT'
     if (System.properties.containsKey('moduleVersion')) {
         moduleVersion = System.getProperty('moduleVersion')
@@ -30,7 +31,8 @@ java {
 apply from: rootProject.file('publish.gradle')
 
 dependencies {
-    compileOnly 'io.testerra:driver-ui-desktop:' + testerraCompileVersion
+    compileOnly 'io.testerra:driver-ui:' + testerraCompileVersion
+    implementation 'com.jayway.jsonpath:json-path:2.9.0'
 
     testImplementation 'io.testerra:driver-ui-desktop:' + testerraTestVersion
     testImplementation 'io.testerra:report-ng:' + testerraTestVersion
