@@ -33,9 +33,10 @@ import java.io.IOException;
 
 public class TeamCityHistoryDownloader implements Loggable {
 
-    private static final String REPORT_MODEL_DIRECTORY = "report-ng/model";
+    private static final String REPORT_MODEL_DIRECTORY = "report-ng/model/";
 
     public enum Properties implements IProperties {
+        TEAMCITY_HISTORY_DOWNLOAD("tt.teamcity.history.download.active", false),
         TEAMCITY_URL("tt.teamcity.url", ""),
         TEAMCITY_REST_TOKEN("tt.teamcity.rest.token", ""),
         TEAMCITY_BUILD_TYPE_ID("tt.teamcity.buildTypeId", ""),
@@ -60,28 +61,39 @@ public class TeamCityHistoryDownloader implements Loggable {
         }
     }
 
+    public TeamCityHistoryDownloader() {
+
+    }
+
     /**
      * This workflow get the history file of the latest finished build job
      * and move it to the final report directory
      */
     public void downloadHistoryFileToReport() {
+        if (!Properties.TEAMCITY_HISTORY_DOWNLOAD.asBool()) {
+            return;
+        }
+
         try {
             final String historyFilePath = this.getHistoryFilePath();
+            if (historyFilePath == null) {
+                return;
+            }
             File historyFile = this.downloadHistoryFile(historyFilePath);
-
             Report report = Testerra.getInjector().getInstance(Report.class);
             File finalReportDirectory = report.getFinalReportDirectory();
 
+            // TODO: Delete old one
             FileUtils.moveFile(historyFile, new File(finalReportDirectory, REPORT_MODEL_DIRECTORY));
         } catch (IOException e) {
-            log().warn("Cannot move history file to report directory: ", e.getCause());
+            log().warn("Cannot download history file to report directory: {}", e.getMessage());
         }
     }
 
     private String getHistoryFilePath() {
-        final String teamCityUrl = Properties.TEAMCITY_URL.toString();
-        final String restToken = Properties.TEAMCITY_REST_TOKEN.toString();
-        final String buildTypeId = Properties.TEAMCITY_BUILD_TYPE_ID.toString();
+        final String teamCityUrl = Properties.TEAMCITY_URL.asString();
+        final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
+        final String buildTypeId = Properties.TEAMCITY_BUILD_TYPE_ID.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(teamCityUrl, restToken);
         final String buildId = client.findLatestBuildId(buildTypeId);
@@ -89,12 +101,13 @@ public class TeamCityHistoryDownloader implements Loggable {
     }
 
     private File downloadHistoryFile(final String path) throws IOException {
-        final String restToken = Properties.TEAMCITY_REST_TOKEN.toString();
+        final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
         FileDownloader downloader = new FileDownloader();
         downloader.setConnectionConfigurator(connection -> {
             connection.setRequestProperty("Authorization", "Bearer " + restToken);
         });
         return downloader.download(path, "history");
     }
+
 
 }

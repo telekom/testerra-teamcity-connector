@@ -21,12 +21,12 @@
  */
 package io.testerra.plugins.teamcity.test;
 
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityHistoryDownloader;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityRestClient;
 import eu.tsystems.mms.tic.testframework.common.PropertyManagerProvider;
 import eu.tsystems.mms.tic.testframework.testing.TesterraTest;
 import eu.tsystems.mms.tic.testframework.utils.FileDownloader;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -36,20 +36,26 @@ public class TeamCityRestClientTests extends TesterraTest implements PropertyMan
 
     /**
      * To run this test you need to create a 'local.properties' file and add the following properties:
-     * tt.teamcity.test.tc.url=<teamcity-url>
-     * tt.teamcity.test.tc.token=<bearer token>
-     * tt.teamcity.test.tc.buildtypeid=<build type id of your build job>
+     * tt.teamcity.history.download.active=true
+     * tt.teamcity.url=<teamcity-url>
+     * tt.teamcity.rest.token=<bearer token>
+     * tt.teamcity.buildTypeId=<build type id of your build job>
      */
-    @BeforeSuite
-    public void initLocalProperties() {
+
+    static {
         PROPERTY_MANAGER.loadProperties("local.properties");
     }
 
+//    @BeforeSuite
+//    public void initLocalProperties() {
+//
+//    }
+
     @Test
     public void downloadAHistoryFileFromTeamCity() throws IOException {
-        final String url = PROPERTY_MANAGER.getProperty("tt.teamcity.test.tc.url");
-        final String token = PROPERTY_MANAGER.getProperty("tt.teamcity.test.tc.token");
-        final String buildTypeId = PROPERTY_MANAGER.getProperty("tt.teamcity.test.tc.buildtypeid");
+        final String url = TeamCityHistoryDownloader.Properties.TEAMCITY_URL.asString();
+        final String token = TeamCityHistoryDownloader.Properties.TEAMCITY_REST_TOKEN.asString();
+        final String buildTypeId = TeamCityHistoryDownloader.Properties.TEAMCITY_BUILD_TYPE_ID.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(url, token);
         final String buildId = client.findLatestBuildId(buildTypeId);
