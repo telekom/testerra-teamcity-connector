@@ -60,13 +60,15 @@ Maven:
 
 ## Documentation
 
-### TeamCity configuration
+### Improvement of build status in TeamCity
+
+#### TeamCity configuration
 
 Please ensure that you have `Failure Conditions > Common Failure Conditions > at least one test failed` deactivated on your TeamCity
 build configuration,  
 because TeamCity Connector will announce the build status on report generation based on test execution statistics.
 
-### Gradle / Maven configuration
+#### Gradle / Maven configuration
 
 When using TeamCity Connector you have to ensure that Gradle/Maven will ignore test failures.
 
@@ -95,7 +97,7 @@ Maven:
 </build>
 ````
 
-### Impacts on TeamCity
+#### Impacts on TeamCity
 
 *Changes in TeamCity*
 
@@ -124,6 +126,24 @@ The following tables shows some more examples how the result could be.
 | ![](doc/teamcity_connector_result_failure_corr.png) | The Failure corridor was matched, the status is OK although a test failed.|
 | ![](doc/teamcity_connector_result_exp_failed.png) | A test was marked as expected failed, all other tests passed. The restult of the test run is still passed.|
 
+### Support of Testrun history of Testerra Report
+
+#### Properties
+
+Specify the following properties in `test.properties` to control the history file download:
+
+| Property                  | Description                                      |
+|---------------------------|--------------------------------------------------|
+| `tt.teamcity.url`         | URL of your TeamCity server                      |
+| `tt.teamcity.rest.token`  | TeamCity Access token needed for REST API        |
+| `tt.teamcity.buildTypeId` | BuildType ID for the current Build configuration |
+
+#### TeamCity configuration
+
+It is recommended that the REST token and the BuildType-ID is stored in a Configuration Parameter in your Build Configuration.
+
+
+
 ---
 
 ## Publication
@@ -132,15 +152,15 @@ This module is deployed and published to Maven Central. All JAR files are signed
 
 The following properties have to be set via command line or ``~/.gradle/gradle.properties``
 
-| Property                      | Description                                         |
-| ----------------------------- | --------------------------------------------------- |
-| `moduleVersion`               | Version of deployed module, default is `1-SNAPSHOT` |
-| `deployUrl`                   | Maven repository URL                                |
-| `deployUsername`              | Maven repository username                           |
-| `deployPassword`              | Maven repository password                           |
-| `signing.keyId`               | GPG private key ID (short form)                     |
-| `signing.password`            | GPG private key password                            |
-| `signing.secretKeyRingFile`   | Path to GPG private key                             |
+| Property                    | Description                                         |
+|-----------------------------|-----------------------------------------------------|
+| `moduleVersion`             | Version of deployed module, default is `1-SNAPSHOT` |
+| `deployUrl`                 | Maven repository URL                                |
+| `deployUsername`            | Maven repository username                           |
+| `deployPassword`            | Maven repository password                           |
+| `signing.keyId`             | GPG private key ID (short form)                     |
+| `signing.password`          | GPG private key password                            |
+| `signing.secretKeyRingFile` | Path to GPG private key                             |
 
 If all properties are set, call the following to build, deploy and release this module:
 ````shell
