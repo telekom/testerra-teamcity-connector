@@ -80,12 +80,12 @@ public class TeamCityHistoryDownloader implements Loggable {
             File historyFile = this.downloadHistoryFile(historyFilePath);
             Report report = Testerra.getInjector().getInstance(Report.class);
             File finalReportDirectory = new File(report.getFinalReportDirectory(), REPORT_MODEL_DIRECTORY);
-            if (finalReportDirectory.exists()) {
+            if (finalReportDirectory.getAbsoluteFile().exists()) {
                 FileUtils.cleanDirectory(finalReportDirectory.getAbsoluteFile());
             } else {
-                Files.createFile(finalReportDirectory.toPath());
+                Files.createDirectories(finalReportDirectory.getAbsoluteFile().toPath());
             }
-            Files.move(historyFile.toPath(), finalReportDirectory.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.move(historyFile.toPath(), finalReportDirectory.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             log().warn("Cannot download history file to report directory: {}: {}", e.getClass(), e.getMessage());
         }
