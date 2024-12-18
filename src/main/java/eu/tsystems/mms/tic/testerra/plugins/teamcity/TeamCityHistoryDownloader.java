@@ -30,6 +30,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class TeamCityHistoryDownloader implements Loggable {
 
@@ -61,10 +63,6 @@ public class TeamCityHistoryDownloader implements Loggable {
         }
     }
 
-    public TeamCityHistoryDownloader() {
-
-    }
-
     /**
      * This workflow get the history file of the latest finished build job
      * and move it to the final report directory
@@ -81,12 +79,11 @@ public class TeamCityHistoryDownloader implements Loggable {
             }
             File historyFile = this.downloadHistoryFile(historyFilePath);
             Report report = Testerra.getInjector().getInstance(Report.class);
-            File finalReportDirectory = report.getFinalReportDirectory();
-
-            // TODO: Delete old one
-            FileUtils.moveFile(historyFile, new File(finalReportDirectory, REPORT_MODEL_DIRECTORY));
+            File finalReportDirectory = new File(report.getFinalReportDirectory(), REPORT_MODEL_DIRECTORY);
+            FileUtils.cleanDirectory(finalReportDirectory.getAbsoluteFile());
+            Files.move(historyFile.toPath(), finalReportDirectory.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            log().warn("Cannot download history file to report directory: {}", e.getMessage());
+            log().warn("Cannot download history file to report directory: {}: {}", e.getClass(), e.getMessage());
         }
     }
 
