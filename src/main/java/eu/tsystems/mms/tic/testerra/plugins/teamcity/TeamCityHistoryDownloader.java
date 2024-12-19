@@ -109,7 +109,6 @@ public class TeamCityHistoryDownloader implements Loggable {
         downloader.setConnectionConfigurator(connection -> {
             connection.setRequestProperty("Authorization", "Bearer " + restToken);
         });
-        ;
         return downloader.download(path, UUID.randomUUID().toString() + "/" + HISTORY_FILENAME);
     }
 
