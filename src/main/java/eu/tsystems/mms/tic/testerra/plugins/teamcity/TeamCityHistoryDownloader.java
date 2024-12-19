@@ -87,7 +87,7 @@ public class TeamCityHistoryDownloader implements Loggable {
             }
             Files.createDirectories(finalReportDirectory.getAbsoluteFile().toPath());
             Files.move(historyFile.toPath(), finalHistoryFile.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-            log().info("History file moved to {}", finalReportDirectory.getAbsoluteFile().toPath());
+            log().info("History file moved to {}", finalHistoryFile.getAbsoluteFile().toPath());
         } catch (IOException e) {
             log().warn("Cannot download history file to report directory: {}: {}", e.getClass(), e.getMessage());
         }
