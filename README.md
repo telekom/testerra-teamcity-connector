@@ -132,12 +132,13 @@ The following tables shows some more examples how the result could be.
 
 Specify the following properties in `test.properties` to control the history file download for Testerra Report:
 
-| Property                              | Description                                          |
-|---------------------------------------|------------------------------------------------------|
-| `tt.teamcity.history.download.active` | Activate the history file download, default: `false` |
-| `tt.teamcity.url`                     | URL of your TeamCity server                          |
-| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API            |
-| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration     |
+| Property                              | Description                                                                                          |
+|---------------------------------------|------------------------------------------------------------------------------------------------------|
+| `tt.teamcity.history.download.active` | Activate the history file download, default: `false`                                                 |
+| `tt.teamcity.url`                     | URL of your TeamCity server                                                                          |
+| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API                                                            |
+| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration                                                     |
+| `tt.teamcity.build.branch`            | Specify the branch of the build job from which the history file has to be downloaded, default: `all` |
 
 #### TeamCity configuration
 
@@ -149,6 +150,17 @@ All the other properties can be setup as 'Additional Maven command line paramete
 
 ![teamcity_connector_history_parameter.png](doc/teamcity_connector_history_parameter.png)
 
+#### Selecting the branch
+
+You can specify the Git branch of the build job which is used to download the latest history file.
+
+Add the property `tt.teamcity.build.branch` to your setup: 
+
+| Value         | Description                                                                                                        |
+|---------------|--------------------------------------------------------------------------------------------------------------------|
+| `all`         | TeamCity connector takes the last build job independent of the used branch. This is default.                       |
+| `default`     | Only build jobs of the default branch are used for download. The default branch is configured in your VCS setting. |
+| `<any other>` | Any other value is used as a branch name, eg. `development`, `fix/a-bug`                                           |
 
 ---
 

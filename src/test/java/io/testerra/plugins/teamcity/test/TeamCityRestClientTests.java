@@ -56,9 +56,10 @@ public class TeamCityRestClientTests extends TesterraTest implements PropertyMan
         final String url = TeamCityHistoryDownloader.Properties.TEAMCITY_URL.asString();
         final String token = TeamCityHistoryDownloader.Properties.TEAMCITY_REST_TOKEN.asString();
         final String buildTypeId = TeamCityHistoryDownloader.Properties.TEAMCITY_BUILD_TYPE_ID.asString();
+        final String branchType = TeamCityHistoryDownloader.Properties.TEAMCITY_BUILD_BRANCH.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(url, token);
-        final String buildId = client.findLatestBuildId(buildTypeId);
+        final String buildId = client.findLatestBuildId(buildTypeId, branchType);
         final String historyFilePath = client.getHistoryFilePath(buildId);
         FileDownloader downloader = new FileDownloader();
         downloader.setConnectionConfigurator(connection -> {

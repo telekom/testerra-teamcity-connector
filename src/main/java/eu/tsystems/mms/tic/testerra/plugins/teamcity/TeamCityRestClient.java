@@ -72,8 +72,17 @@ public class TeamCityRestClient implements Loggable {
         }
     }
 
-    public String findLatestBuildId(final String buildTypeId) {
-        final String path = "/app/rest/buildTypes/id:" + buildTypeId + "/builds?locator=running:false,count:1";
+    public String findLatestBuildId(final String buildTypeId, final String branchType) {
+        String branchLocator = "name:" + branchType;
+        switch (branchType.toLowerCase()) {
+            case "all":
+                branchLocator = "policy:ALL_BRANCHES";
+                break;
+            case "default":
+                branchLocator = "default:true";
+        }
+
+        final String path = "/app/rest/buildTypes/id:" + buildTypeId + "/builds?locator=running:false,canceled:false,branch:(" + branchLocator + "),count:1";
         try {
             log().info("Get last build id from {}", buildTypeId);
             HttpRequest request = this.buildRequest(path);
@@ -85,6 +94,12 @@ public class TeamCityRestClient implements Loggable {
                 log().error(response.body());
                 return null;
             }
+            final String count = Objects.requireNonNull(this.getValueFromJson(response.body(), "$['count']")).toString();
+            if ("0".equals(count)) {
+                log().warn("Cannot find a build id of buildtype {} and branch locator ({})", buildTypeId, branchLocator);
+                return null;
+            }
+
             return Objects.requireNonNull(this.getValueFromJson(response.body(), "$['build'][0]['id']")).toString();
         } catch (IOException | InterruptedException e) {
             log().error("Cannot get build id from {}{}", this.tcUrl, path);

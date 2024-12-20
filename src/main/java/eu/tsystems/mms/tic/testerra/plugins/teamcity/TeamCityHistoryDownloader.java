@@ -43,6 +43,12 @@ public class TeamCityHistoryDownloader implements Loggable {
         TEAMCITY_URL("tt.teamcity.url", ""),
         TEAMCITY_REST_TOKEN("tt.teamcity.rest.token", ""),
         TEAMCITY_BUILD_TYPE_ID("tt.teamcity.buildTypeId", ""),
+
+        // Define the type or name of the branch from which the last history file should download
+        // all = all branches
+        // default = only default branch
+        // <any other> = value is used as a branch name
+        TEAMCITY_BUILD_BRANCH("tt.teamcity.build.branch", "all")
         ;
 
         private final String property;
@@ -73,6 +79,8 @@ public class TeamCityHistoryDownloader implements Loggable {
             return;
         }
 
+        log().info("Trying to download the Report History file of the last TeamCity build...");
+
         try {
             final String historyFilePath = this.getHistoryFilePath();
             if (historyFilePath == null) {
@@ -88,7 +96,7 @@ public class TeamCityHistoryDownloader implements Loggable {
             Files.createDirectories(finalReportDirectory.getAbsoluteFile().toPath());
             Files.move(historyFile.toPath(), finalHistoryFile.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             log().info("History file moved to {}", finalHistoryFile.getAbsoluteFile().toPath());
-        } catch (IOException e) {
+        } catch (Exception e) {
             log().warn("Cannot download history file to report directory: {}: {}", e.getClass(), e.getMessage());
         }
     }
@@ -97,9 +105,13 @@ public class TeamCityHistoryDownloader implements Loggable {
         final String teamCityUrl = Properties.TEAMCITY_URL.asString();
         final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
         final String buildTypeId = Properties.TEAMCITY_BUILD_TYPE_ID.asString();
+        final String branchType = Properties.TEAMCITY_BUILD_BRANCH.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(teamCityUrl, restToken);
-        final String buildId = client.findLatestBuildId(buildTypeId);
+        final String buildId = client.findLatestBuildId(buildTypeId, branchType);
+        if (buildId == null) {
+            return null;
+        }
         return client.getHistoryFilePath(buildId);
     }
 
