@@ -130,18 +130,24 @@ The following tables shows some more examples how the result could be.
 
 #### Properties
 
-Specify the following properties in `test.properties` to control the history file download:
+Specify the following properties in `test.properties` to control the history file download for Testerra Report:
 
-| Property                  | Description                                      |
-|---------------------------|--------------------------------------------------|
-| `tt.teamcity.url`         | URL of your TeamCity server                      |
-| `tt.teamcity.rest.token`  | TeamCity Access token needed for REST API        |
-| `tt.teamcity.buildTypeId` | BuildType ID for the current Build configuration |
+| Property                              | Description                                          |
+|---------------------------------------|------------------------------------------------------|
+| `tt.teamcity.history.download.active` | Activate the history file download, default: `false` |
+| `tt.teamcity.url`                     | URL of your TeamCity server                          |
+| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API            |
+| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration     |
 
 #### TeamCity configuration
 
-It is recommended that the REST token and the BuildType-ID is stored in a Configuration Parameter in your Build Configuration.
+It is recommended that the REST token is stored in a Configuration Parameter in your Build Configuration.
 
+![teamcity_connector_resttoken_parameter.png](doc/teamcity_connector_resttoken_parameter.png)
+
+All the other properties can be setup as 'Additional Maven command line parameters':
+
+![teamcity_connector_history_parameter.png](doc/teamcity_connector_history_parameter.png)
 
 
 ---
