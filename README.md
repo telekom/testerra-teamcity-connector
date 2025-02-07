@@ -128,17 +128,26 @@ The following tables shows some more examples how the result could be.
 
 ### Support of Testrun history of Testerra Report
 
+TeamCity connector can load the testrun history information of the latest build to get the report history in TeamCity-based Testerra executions. See more details in https://docs.testerra.io/.
+
+To get the latest testrun history, the selected TeamCity build job:
+- is not running
+- was not canceled
+- should be of the same build configuration ;-)
+- must match the [branch specification](#selecting-the-branch)
+
 #### Properties
 
 Specify the following properties in `test.properties` to control the history file download for Testerra Report:
 
-| Property                              | Description                                                                                          |
-|---------------------------------------|------------------------------------------------------------------------------------------------------|
-| `tt.teamcity.history.download.active` | Activate the history file download, default: `false`                                                 |
-| `tt.teamcity.url`                     | URL of your TeamCity server                                                                          |
-| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API                                                            |
-| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration                                                     |
-| `tt.teamcity.build.branch`            | Specify the branch of the build job from which the history file has to be downloaded, default: `all` |
+| Property                              | Description                                                                                                                                                |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `tt.teamcity.history.download.active` | Activate the history file download, default: `false`                                                                                                       |
+| `tt.teamcity.url`                     | URL of your TeamCity server                                                                                                                                |
+| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API                                                                                                                  |
+| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration                                                                                                           |
+| `tt.teamcity.build.branch`            | Specify the branch of the build job from which the history file has to be downloaded, default: `all`. See [below](#selecting-the-branch) for more details. |
+| `tt.teamcity.build.count`             | Number of last build jobs for getting the latest history file., default: `3`                                                                               |
 
 #### TeamCity configuration
 
@@ -161,6 +170,12 @@ Add the property `tt.teamcity.build.branch` to your setup:
 | `all`         | TeamCity connector takes the last build job independent of the used branch. This is default.                       |
 | `default`     | Only build jobs of the default branch are used for download. The default branch is configured in your VCS setting. |
 | `<any other>` | Any other value is used as a branch name, eg. `development`, `fix/a-bug`                                           |
+
+#### Set the number of latest build jobs
+
+With `tt.teamcity.build.count` you can set the number of latest builds, where TeamCity connector will search of the latest history file. 
+
+This could help to prevent interrupted history reports in case of broken jobs or incomplete report artifacts. 
 
 ---
 

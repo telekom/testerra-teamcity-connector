@@ -18,7 +18,7 @@ package eu.tsystems.mms.tic.testerra.plugins.teamcity.hooks;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityHistoryDownloader;
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.listener.TeamCityEventListener;
 import eu.tsystems.mms.tic.testerra.plugins.teamcity.worker.TeamCityStatusReportWorker;
 import eu.tsystems.mms.tic.testframework.common.Testerra;

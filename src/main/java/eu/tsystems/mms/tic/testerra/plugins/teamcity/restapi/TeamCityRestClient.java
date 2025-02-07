@@ -19,10 +19,8 @@
  * under the License.
  *
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity;
+package eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi;
 
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 import eu.tsystems.mms.tic.testframework.logging.Loggable;
 
 import java.io.IOException;
@@ -30,8 +28,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.Objects;
 
 public class TeamCityRestClient implements Loggable {
 
@@ -43,7 +39,8 @@ public class TeamCityRestClient implements Loggable {
         this.token = token;
     }
 
-    public String getHistoryFilePath(final String buildId) {
+    public HttpResponse<String> readArtifacts(final int buildId) {
+
         final String path = "/app/rest/builds/id:" + buildId + "/artifacts/children?locator=recursive:true";
         try {
             log().info("Get history file path from build id {}", buildId);
@@ -56,15 +53,7 @@ public class TeamCityRestClient implements Loggable {
                 log().error(response.body());
                 return null;
             }
-            Object value = this.getValueFromJson(response.body(), "$['file'][?(@['name'] == 'history')]['content']['href']");
-            if (value instanceof List && !((List) value).isEmpty()) {
-                final String historyPath = ((List<Object>) value).get(0).toString();
-                return this.tcUrl + historyPath;
-            } else {
-                log().warn("Cannot find history file in artifacts of build id {}", buildId);
-                return null;
-            }
-
+            return response;
         } catch (IOException | InterruptedException e) {
             log().error("Cannot get history file path from {}{}", this.tcUrl, path);
             log().error(e.getMessage());
@@ -72,7 +61,8 @@ public class TeamCityRestClient implements Loggable {
         }
     }
 
-    public String findLatestBuildId(final String buildTypeId, final String branchType) {
+    public HttpResponse<String> readBuildJobs(final String buildTypeId, final String branchType, final String count) {
+
         String branchLocator = "name:" + branchType;
         switch (branchType.toLowerCase()) {
             case "all":
@@ -82,7 +72,11 @@ public class TeamCityRestClient implements Loggable {
                 branchLocator = "default:true";
         }
 
-        final String path = "/app/rest/buildTypes/id:" + buildTypeId + "/builds?locator=running:false,canceled:false,branch:(" + branchLocator + "),count:1";
+        final String path = String.format(
+                "/app/rest/buildTypes/id:%s/builds?locator=running:false,canceled:false,branch:(%s),count:%s",
+                buildTypeId, branchLocator, count
+        );
+
         try {
             log().info("Get last build id from {}", buildTypeId);
             HttpRequest request = this.buildRequest(path);
@@ -94,28 +88,12 @@ public class TeamCityRestClient implements Loggable {
                 log().error(response.body());
                 return null;
             }
-            final String count = Objects.requireNonNull(this.getValueFromJson(response.body(), "$['count']")).toString();
-            if ("0".equals(count)) {
-                log().warn("Cannot find a build id of buildtype {} and branch locator ({})", buildTypeId, branchLocator);
-                return null;
-            }
-
-            return Objects.requireNonNull(this.getValueFromJson(response.body(), "$['build'][0]['id']")).toString();
+            return response;
         } catch (IOException | InterruptedException e) {
             log().error("Cannot get build id from {}{}", this.tcUrl, path);
             log().error(e.getMessage());
             return null;
         }
-    }
-
-    private Object getValueFromJson(final String jsonString, final String path) {
-        DocumentContext jsonContext = JsonPath.parse(jsonString);
-        if (jsonContext == null) {
-            return null;
-        }
-        return jsonContext.read(path);
-//        if() {}
-//        return value.toString();
     }
 
     private HttpRequest buildRequest(final String path) throws IOException {

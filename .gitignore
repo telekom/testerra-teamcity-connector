@@ -10,3 +10,4 @@ build
 target
 testerra-report
 /src/test/resources/local.properties
+/test-report/

@@ -19,8 +19,9 @@
  * under the License.
  *
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity;
+package eu.tsystems.mms.tic.testerra.plugins.teamcity.history;
 
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestClient;
 import eu.tsystems.mms.tic.testframework.common.IProperties;
 import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.logging.Loggable;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 public class TeamCityHistoryDownloader implements Loggable {
@@ -48,7 +50,10 @@ public class TeamCityHistoryDownloader implements Loggable {
         // all = all branches
         // default = only default branch
         // <any other> = value is used as a branch name
-        TEAMCITY_BUILD_BRANCH("tt.teamcity.build.branch", "all")
+        TEAMCITY_BUILD_BRANCH("tt.teamcity.build.branch", "all"),
+
+        // If the artifacts of a build job do not contain the history file, the history downloader will check the next 'n' build jobs
+        TEAMCITY_LAST_BUILD_COUNT("tt.teamcity.build.count", "3"),
         ;
 
         private final String property;
@@ -106,22 +111,22 @@ public class TeamCityHistoryDownloader implements Loggable {
         final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
         final String buildTypeId = Properties.TEAMCITY_BUILD_TYPE_ID.asString();
         final String branchType = Properties.TEAMCITY_BUILD_BRANCH.asString();
+        final String count = Properties.TEAMCITY_LAST_BUILD_COUNT.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(teamCityUrl, restToken);
-        final String buildId = client.findLatestBuildId(buildTypeId, branchType);
-        if (buildId == null) {
-            return null;
-        }
-        return client.getHistoryFilePath(buildId);
+        TeamCityReadHistoryHelper helper = new TeamCityReadHistoryHelper(client);
+        List<Integer> latestBuildIds = helper.findLatestBuildIds(buildTypeId, branchType, count);
+        return helper.getHistoryFilePath(latestBuildIds);
     }
 
     private File downloadHistoryFile(final String path) throws IOException {
         final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
+        final String teamCityUrl = Properties.TEAMCITY_URL.asString();
         FileDownloader downloader = new FileDownloader();
         downloader.setConnectionConfigurator(connection -> {
             connection.setRequestProperty("Authorization", "Bearer " + restToken);
         });
-        return downloader.download(path, UUID.randomUUID().toString() + "/" + HISTORY_FILENAME);
+        return downloader.download(teamCityUrl + path, UUID.randomUUID().toString() + "/" + HISTORY_FILENAME);
     }
 
 

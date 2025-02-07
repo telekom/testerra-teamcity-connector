@@ -21,8 +21,9 @@
  */
 package io.testerra.plugins.teamcity.test;
 
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityHistoryDownloader;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityRestClient;
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityReadHistoryHelper;
+import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestClient;
 import eu.tsystems.mms.tic.testframework.common.PropertyManagerProvider;
 import eu.tsystems.mms.tic.testframework.testing.TesterraTest;
 import eu.tsystems.mms.tic.testframework.utils.FileDownloader;
@@ -31,6 +32,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class TeamCityRestClientTests extends TesterraTest implements PropertyManagerProvider {
 
@@ -57,15 +59,18 @@ public class TeamCityRestClientTests extends TesterraTest implements PropertyMan
         final String token = TeamCityHistoryDownloader.Properties.TEAMCITY_REST_TOKEN.asString();
         final String buildTypeId = TeamCityHistoryDownloader.Properties.TEAMCITY_BUILD_TYPE_ID.asString();
         final String branchType = TeamCityHistoryDownloader.Properties.TEAMCITY_BUILD_BRANCH.asString();
+        final String count = TeamCityHistoryDownloader.Properties.TEAMCITY_LAST_BUILD_COUNT.asString();
 
         TeamCityRestClient client = new TeamCityRestClient(url, token);
-        final String buildId = client.findLatestBuildId(buildTypeId, branchType);
-        final String historyFilePath = client.getHistoryFilePath(buildId);
+        TeamCityReadHistoryHelper helper = new TeamCityReadHistoryHelper(client);
+        List<Integer> latestBuildIds = helper.findLatestBuildIds(buildTypeId, branchType, count);
+        final String historyFilePath = helper.getHistoryFilePath(latestBuildIds);
+        Assert.assertNotNull(historyFilePath);
         FileDownloader downloader = new FileDownloader();
         downloader.setConnectionConfigurator(connection -> {
             connection.setRequestProperty("Authorization", "Bearer " + token);
         });
-        File history = downloader.download(historyFilePath, "history");
+        File history = downloader.download(url + historyFilePath, "history");
         Assert.assertNotNull(history);
     }
 
