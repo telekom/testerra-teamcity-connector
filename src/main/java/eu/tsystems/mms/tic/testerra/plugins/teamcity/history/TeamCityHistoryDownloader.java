@@ -28,12 +28,11 @@ import eu.tsystems.mms.tic.testframework.logging.Loggable;
 import eu.tsystems.mms.tic.testframework.report.Report;
 import eu.tsystems.mms.tic.testframework.utils.FileDownloader;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 
 public class TeamCityHistoryDownloader implements Loggable {
 
@@ -91,16 +90,16 @@ public class TeamCityHistoryDownloader implements Loggable {
             if (historyFilePath == null) {
                 return;
             }
-            File historyFile = this.downloadHistoryFile(historyFilePath);
+            Path historyFile = this.downloadHistoryFile(historyFilePath);
             Report report = Testerra.getInjector().getInstance(Report.class);
-            File finalReportDirectory = new File(report.getFinalReportDirectory(), REPORT_MODEL_DIRECTORY);
-            File finalHistoryFile = new File(finalReportDirectory, historyFile.getName());
-            if (finalReportDirectory.getAbsoluteFile().exists() && !finalReportDirectory.isDirectory()) {
-                finalReportDirectory.delete();
+            Path finalModelDirectory = report.getFinalReportDirectory().resolve(REPORT_MODEL_DIRECTORY);
+            Path finalHistoryFile = finalModelDirectory.resolve(HISTORY_FILENAME);
+            if (Files.exists(finalHistoryFile) && !Files.isDirectory(finalHistoryFile)) {
+                Files.delete(finalHistoryFile);
             }
-            Files.createDirectories(finalReportDirectory.getAbsoluteFile().toPath());
-            Files.move(historyFile.toPath(), finalHistoryFile.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-            log().info("History file moved to {}", finalHistoryFile.getAbsoluteFile().toPath());
+            Files.createDirectories(finalModelDirectory);
+            Files.move(historyFile, finalHistoryFile, StandardCopyOption.REPLACE_EXISTING);
+            log().info("History file moved to {}", finalHistoryFile.toAbsolutePath());
         } catch (Exception e) {
             log().warn("Cannot download history file to report directory: {}: {}", e.getClass(), e.getMessage());
         }
@@ -119,14 +118,15 @@ public class TeamCityHistoryDownloader implements Loggable {
         return helper.getHistoryFilePath(latestBuildIds);
     }
 
-    private File downloadHistoryFile(final String path) throws IOException {
+    private Path downloadHistoryFile(final String path) throws IOException {
         final String restToken = Properties.TEAMCITY_REST_TOKEN.asString();
         final String teamCityUrl = Properties.TEAMCITY_URL.asString();
         FileDownloader downloader = new FileDownloader();
         downloader.setConnectionConfigurator(connection -> {
             connection.setRequestProperty("Authorization", "Bearer " + restToken);
         });
-        return downloader.download(teamCityUrl + path, UUID.randomUUID().toString() + "/" + HISTORY_FILENAME);
+        Path tempFile = Files.createTempFile(null, "_" + HISTORY_FILENAME);
+        return downloader.download(teamCityUrl + path, tempFile.getFileName().toString()).toPath();
     }
 
 
