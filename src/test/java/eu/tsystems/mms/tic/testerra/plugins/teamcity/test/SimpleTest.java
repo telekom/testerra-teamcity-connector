@@ -18,6 +18,7 @@
 package eu.tsystems.mms.tic.testerra.plugins.teamcity.test;
 
 import eu.tsystems.mms.tic.testframework.annotations.Fails;
+import eu.tsystems.mms.tic.testframework.common.PropertyManagerProvider;
 import eu.tsystems.mms.tic.testframework.testing.TesterraTest;
 import eu.tsystems.mms.tic.testframework.utils.TimerUtils;
 import nl.altindag.console.ConsoleCaptor;
@@ -42,7 +43,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Martin Großmann
  */
-public class SimpleTest extends TesterraTest {
+public class SimpleTest extends TesterraTest implements PropertyManagerProvider {
+
+    static {
+        PROPERTY_MANAGER.loadProperties("local.properties");
+    }
 
     private static final int TEST_DURATION = 1_000;
 
