@@ -19,9 +19,9 @@
  * under the License.
  *
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.history;
+package io.testerra.plugins.teamcity.history;
 
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestClient;
+import io.testerra.plugins.teamcity.restapi.TeamCityRestClient;
 import eu.tsystems.mms.tic.testframework.common.IProperties;
 import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.logging.Loggable;

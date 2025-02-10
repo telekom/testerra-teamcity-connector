@@ -21,9 +21,9 @@
  */
 package io.testerra.plugins.teamcity.test;
 
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityReadHistoryHelper;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestClient;
+import io.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
+import io.testerra.plugins.teamcity.history.TeamCityReadHistoryHelper;
+import io.testerra.plugins.teamcity.restapi.TeamCityRestClient;
 import eu.tsystems.mms.tic.testframework.common.PropertyManagerProvider;
 import eu.tsystems.mms.tic.testframework.testing.TesterraTest;
 import eu.tsystems.mms.tic.testframework.utils.FileDownloader;

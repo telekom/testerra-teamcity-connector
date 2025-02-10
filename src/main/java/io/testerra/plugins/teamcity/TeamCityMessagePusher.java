@@ -14,7 +14,7 @@
  * Contributors:
  *      Eric Kubenka
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity;
+package io.testerra.plugins.teamcity;
 
 /**
  * Provide methods to push teamcity log messages in a defined way.

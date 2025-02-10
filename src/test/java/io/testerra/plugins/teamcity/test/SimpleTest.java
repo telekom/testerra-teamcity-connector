@@ -15,7 +15,7 @@
  *       Martin Großmann
  */
 
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.test;
+package io.testerra.plugins.teamcity.test;
 
 import eu.tsystems.mms.tic.testframework.annotations.Fails;
 import eu.tsystems.mms.tic.testframework.common.PropertyManagerProvider;

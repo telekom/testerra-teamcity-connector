@@ -19,7 +19,7 @@
  * under the License.
  *
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi;
+package io.testerra.plugins.teamcity.restapi;
 
 import eu.tsystems.mms.tic.testframework.logging.Loggable;
 

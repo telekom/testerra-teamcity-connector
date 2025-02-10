@@ -14,13 +14,13 @@
  * Contributors:
  *      Eric Kubenka
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.hooks;
+package io.testerra.plugins.teamcity.hooks;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.AbstractModule;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.listener.TeamCityEventListener;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.worker.TeamCityStatusReportWorker;
+import io.testerra.plugins.teamcity.history.TeamCityHistoryDownloader;
+import io.testerra.plugins.teamcity.listener.TeamCityEventListener;
+import io.testerra.plugins.teamcity.worker.TeamCityStatusReportWorker;
 import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.hooks.ModuleHook;
 

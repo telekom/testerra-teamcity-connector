@@ -19,10 +19,10 @@
  * under the License.
  *
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.history;
+package io.testerra.plugins.teamcity.history;
 
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestClient;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.restapi.TeamCityRestResponseParser;
+import io.testerra.plugins.teamcity.restapi.TeamCityRestClient;
+import io.testerra.plugins.teamcity.restapi.TeamCityRestResponseParser;
 import eu.tsystems.mms.tic.testframework.logging.Loggable;
 import org.apache.commons.lang3.StringUtils;
 

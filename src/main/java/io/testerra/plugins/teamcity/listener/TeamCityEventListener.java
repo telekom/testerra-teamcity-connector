@@ -16,17 +16,14 @@
  *      Eric Kubenka
  */
 
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.listener;
+package io.testerra.plugins.teamcity.listener;
 
 import com.google.common.eventbus.Subscribe;
 
-import static eu.tsystems.mms.tic.testframework.report.utils.ExecutionContextController.getCurrentExecutionContext;
-
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
+import io.testerra.plugins.teamcity.TeamCityMessagePusher;
 import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.events.TestStatusUpdateEvent;
 import eu.tsystems.mms.tic.testframework.report.ITestStatusController;
-import eu.tsystems.mms.tic.testframework.report.TesterraListener;
 import eu.tsystems.mms.tic.testframework.report.model.context.RunConfig;
 import eu.tsystems.mms.tic.testframework.report.utils.IExecutionContextController;
 import org.apache.commons.lang3.StringUtils;

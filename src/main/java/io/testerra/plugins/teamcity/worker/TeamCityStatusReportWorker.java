@@ -15,11 +15,11 @@
  *      Eric Kubenka
  */
 
-package eu.tsystems.mms.tic.testerra.plugins.teamcity.worker;
+package io.testerra.plugins.teamcity.worker;
 
 import com.google.common.eventbus.Subscribe;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityBuildStatus;
-import eu.tsystems.mms.tic.testerra.plugins.teamcity.TeamCityMessagePusher;
+import io.testerra.plugins.teamcity.TeamCityBuildStatus;
+import io.testerra.plugins.teamcity.TeamCityMessagePusher;
 import eu.tsystems.mms.tic.testframework.common.Testerra;
 import eu.tsystems.mms.tic.testframework.events.ExecutionFinishEvent;
 import eu.tsystems.mms.tic.testframework.report.FailureCorridor;
