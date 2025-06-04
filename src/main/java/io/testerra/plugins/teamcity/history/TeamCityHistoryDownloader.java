@@ -45,7 +45,7 @@ public class TeamCityHistoryDownloader implements Loggable {
         TEAMCITY_REST_TOKEN("tt.teamcity.rest.token", ""),
         TEAMCITY_BUILD_TYPE_ID("tt.teamcity.buildTypeId", ""),
 
-        // Define the type or name of the branch from which the last history file should download
+        // Define the type or name of the branch from which the latest history file should download
         // all = all branches
         // default = only default branch
         // <any other> = value is used as a branch name
@@ -83,7 +83,7 @@ public class TeamCityHistoryDownloader implements Loggable {
             return;
         }
 
-        log().info("Trying to download the Report History file of the last TeamCity build...");
+        log().info("Trying to download the Report History file of the latest matching TeamCity build...");
 
         try {
             final String historyFilePath = this.getHistoryFilePath();
