@@ -36,6 +36,7 @@ It will register automatically by using the Testerra ModuleHook.
 | `1.1`              | `1.9`          |
 | `2.0-RC-2`         | `>= 2.0-RC-19` |
 | `2.0`              | `>= 2.0`       |
+| `2.1`              | `>= 2.11`      |
 
 ### Usage
 
@@ -44,7 +45,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'io.testerra:teamcity-connector:2.0'
+implementation 'io.testerra:teamcity-connector:2.1'
 ````
 
 Maven:
@@ -54,7 +55,7 @@ Maven:
 <dependency>
     <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
 </dependency>
 ````
 
