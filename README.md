@@ -148,7 +148,7 @@ Specify the following properties in `test.properties` to control the history fil
 | `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API                                                                                                                  |
 | `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration                                                                                                           |
 | `tt.teamcity.build.branch`            | Specify the branch of the build job from which the history file has to be downloaded, default: `all`. See [below](#selecting-the-branch) for more details. |
-| `tt.teamcity.build.count`             | Number of last build jobs for getting the latest history file., default: `3`                                                                               |
+| `tt.teamcity.build.count`             | Number of last build jobs for getting the latest history file, default: `3`                                                                                |
 
 #### TeamCity configuration
 
