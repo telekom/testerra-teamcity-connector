@@ -14,7 +14,7 @@
  * Contributors:
  *      Eric Kubenka
  */
-package eu.tsystems.mms.tic.testerra.plugins.teamcity;
+package io.testerra.plugins.teamcity;
 
 /**
  * Enum for Build Status

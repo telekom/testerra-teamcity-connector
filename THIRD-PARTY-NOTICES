@@ -1,6 +1,6 @@
 ThirdPartyNotices
 -----------------
-Testerra uses third-party software or other resources that may be distributed 
+Testerra uses third-party software or other resources that may be distributed
 under licenses different from Testerra.
 
 In the event that we overlooked to list a required notice, please bring this
@@ -11,7 +11,7 @@ Components:
 -----------
 
 Component: 	eu.tsystems.mms.tic.testerra.driver-ui-desktop
-Version:	1.0-RC-10
+Version:	2.0
 Website:   	https://testerra.io
 Repository:	https://github.com/telekom/testerra
 License:   	Apache-2.0

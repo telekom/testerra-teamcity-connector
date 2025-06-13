@@ -36,6 +36,7 @@ It will register automatically by using the Testerra ModuleHook.
 | `1.1`              | `1.9`          |
 | `2.0-RC-2`         | `>= 2.0-RC-19` |
 | `2.0`              | `>= 2.0`       |
+| `2.1`              | `>= 2.11`      |
 
 ### Usage
 
@@ -44,7 +45,7 @@ Include the following dependency in your project.
 Gradle:
 
 ````groovy
-implementation 'io.testerra:teamcity-connector:2.0'
+implementation 'io.testerra:teamcity-connector:2.1'
 ````
 
 Maven:
@@ -54,19 +55,21 @@ Maven:
 <dependency>
     <groupId>io.testerra</groupId>
     <artifactId>teamcity-connector</artifactId>
-    <version>2.0</version>
+    <version>2.1</version>
 </dependency>
 ````
 
 ## Documentation
 
-### TeamCity configuration
+### Improvement of build status in TeamCity
+
+#### TeamCity configuration
 
 Please ensure that you have `Failure Conditions > Common Failure Conditions > at least one test failed` deactivated on your TeamCity
 build configuration,  
 because TeamCity Connector will announce the build status on report generation based on test execution statistics.
 
-### Gradle / Maven configuration
+#### Gradle / Maven configuration
 
 When using TeamCity Connector you have to ensure that Gradle/Maven will ignore test failures.
 
@@ -95,7 +98,7 @@ Maven:
 </build>
 ````
 
-### Impacts on TeamCity
+#### Impacts on TeamCity
 
 *Changes in TeamCity*
 
@@ -124,6 +127,57 @@ The following tables shows some more examples how the result could be.
 | ![](doc/teamcity_connector_result_failure_corr.png) | The Failure corridor was matched, the status is OK although a test failed.|
 | ![](doc/teamcity_connector_result_exp_failed.png) | A test was marked as expected failed, all other tests passed. The restult of the test run is still passed.|
 
+### Support of Testrun history of Testerra Report
+
+TeamCity connector can load the testrun history information of the latest build to get the report history in TeamCity-based Testerra executions. See more details in https://docs.testerra.io/.
+
+To get the latest testrun history, the selected TeamCity build job:
+- is not running
+- was not canceled
+- should be of the same build configuration ;-)
+- must match the [branch specification](#selecting-the-branch)
+
+#### Properties
+
+Specify the following properties in `test.properties` to control the history file download for Testerra Report:
+
+| Property                              | Description                                                                                                                                                |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `tt.teamcity.history.download.active` | Activate the history file download, default: `false`                                                                                                       |
+| `tt.teamcity.url`                     | URL of your TeamCity server                                                                                                                                |
+| `tt.teamcity.rest.token`              | TeamCity Access token needed for REST API                                                                                                                  |
+| `tt.teamcity.buildTypeId`             | BuildType ID for the current Build configuration                                                                                                           |
+| `tt.teamcity.build.branch`            | Specify the branch of the build job from which the history file has to be downloaded, default: `all`. See [below](#selecting-the-branch) for more details. |
+| `tt.teamcity.build.count`             | Number of last build jobs for getting the latest history file, default: `3`                                                                                |
+
+#### TeamCity configuration
+
+It is recommended that the REST token is stored in a Configuration Parameter in your Build Configuration.
+
+![teamcity_connector_resttoken_parameter.png](doc/teamcity_connector_resttoken_parameter.png)
+
+All the other properties can be setup as 'Additional Maven command line parameters':
+
+![teamcity_connector_history_parameter.png](doc/teamcity_connector_history_parameter.png)
+
+#### Selecting the branch
+
+You can specify the Git branch of the build job which is used to download the latest history file.
+
+Add the property `tt.teamcity.build.branch` to your setup: 
+
+| Value         | Description                                                                                                        |
+|---------------|--------------------------------------------------------------------------------------------------------------------|
+| `all`         | TeamCity connector takes the last build job independent of the used branch. This is default.                       |
+| `default`     | Only build jobs of the default branch are used for download. The default branch is configured in your VCS setting. |
+| `<any other>` | Any other value is used as a branch name, eg. `development`, `fix/a-bug`                                           |
+
+#### Set the number of latest build jobs
+
+With `tt.teamcity.build.count` you can set the number of latest builds, where TeamCity connector will search of the latest history file. 
+
+This could help to prevent interrupted history reports in case of broken jobs or incomplete report artifacts. 
+
 ---
 
 ## Publication
@@ -132,15 +186,15 @@ This module is deployed and published to Maven Central. All JAR files are signed
 
 The following properties have to be set via command line or ``~/.gradle/gradle.properties``
 
-| Property                      | Description                                         |
-| ----------------------------- | --------------------------------------------------- |
-| `moduleVersion`               | Version of deployed module, default is `1-SNAPSHOT` |
-| `deployUrl`                   | Maven repository URL                                |
-| `deployUsername`              | Maven repository username                           |
-| `deployPassword`              | Maven repository password                           |
-| `signing.keyId`               | GPG private key ID (short form)                     |
-| `signing.password`            | GPG private key password                            |
-| `signing.secretKeyRingFile`   | Path to GPG private key                             |
+| Property                    | Description                                         |
+|-----------------------------|-----------------------------------------------------|
+| `moduleVersion`             | Version of deployed module, default is `1-SNAPSHOT` |
+| `deployUrl`                 | Maven repository URL                                |
+| `deployUsername`            | Maven repository username                           |
+| `deployPassword`            | Maven repository password                           |
+| `signing.keyId`             | GPG private key ID (short form)                     |
+| `signing.password`          | GPG private key password                            |
+| `signing.secretKeyRingFile` | Path to GPG private key                             |
 
 If all properties are set, call the following to build, deploy and release this module:
 ````shell
