@@ -1,11 +1,12 @@
 plugins {
-    id "io.codearte.nexus-staging" version "0.30.0"
+//    id "io.codearte.nexus-staging" version "0.30.0"
+    id "org.danilopianini.publish-on-central" version "9.0.2"
 }
 
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-apply plugin: 'io.codearte.nexus-staging'
+//apply plugin: 'io.codearte.nexus-staging'
 
 ext {
     // Minimum required Testerra version
