@@ -1,12 +1,10 @@
 plugins {
-//    id "io.codearte.nexus-staging" version "0.30.0"
     id "org.danilopianini.publish-on-central" version "9.0.2"
 }
 
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-//apply plugin: 'io.codearte.nexus-staging'
 
 ext {
     // Minimum required Testerra version
@@ -14,7 +12,6 @@ ext {
     testerraCompileVersion = '2-SNAPSHOT'
     // Unit tests use the latest Testerra version
     testerraTestVersion = '[2,3-SNAPSHOT)'
-//    testerraTestVersion = '2-hist-SNAPSHOT'
 //    testerraTestVersion = '2-SNAPSHOT'
     moduleVersion = '2-SNAPSHOT'
     if (System.properties.containsKey('moduleVersion')) {

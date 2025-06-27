@@ -35,23 +35,13 @@ javadoc {
     options.addStringOption('Xdoclint:none', '-quiet')
 }
 
-//    task sourcesJar(type: Jar, dependsOn: classes) {
-//        archiveClassifier.set('sources')
-//        from sourceSets.main.allSource
-//    }
-
-//    task javadocJar(type: Jar) {
-//        archiveClassifier.set('javadoc')
-//        from javadoc
-//    }
-
 artifacts {
     archives sourcesJar
     archives javadocJar
 }
 
 publishOnCentral {
-    repoOwner.set("martingrossmann") // Used to populate the default value for projectUrl and scmConnection
+    repoOwner.set("martingrossmann")
     projectDescription.set(rootProject.ext.libraryDescription)
 
     projectLongName.set(project.name)
@@ -59,25 +49,6 @@ publishOnCentral {
     licenseUrl.set(rootProject.ext.licenseUrl)
     projectUrl.set(rootProject.ext.gitHttpsUrl)
     scmConnection.set(rootProject.ext.gitUrl)
-
-    /*
- * The plugin is pre-configured to fetch credentials for Maven Central from the context in the following order:
- * 1. Environment variables MAVEN_CENTRAL_USERNAME and MAVEN_CENTRAL_PASSWORD
- * 2. Project properties mavenCentralUsername and mavenCentralPassword
- * 3. Project properties sonatypeUsername and sonatypePassword
- * 4. Project properties ossrhUsername and ossrhPassword
- *
- * They can be further customized through values or providers:
- */
-//        mavenCentral.user.set("...")
-//        mavenCentral.password.set(provider { "..." })
-
-//    if (project.version.endsWith("-SNAPSHOT")) {
-//        repository("https://central.sonatype.com/repository/maven-snapshots/", "Snapshots") {
-//            user.set(System.getProperty("MAVEN_CENTRAL_PORTAL_USERNAME", "none"))
-//            password.set(System.getProperty("MAVEN_CENTRAL_PORTAL_PASSWORD", "none"))
-//        }
-//    }
 }
 
 publishing {
@@ -123,23 +94,13 @@ publishing {
             maven {
                 url "https://central.sonatype.com/repository/maven-snapshots/"
                 credentials {
-                    username System.getProperty("mavenCentralPortalUsername", "none")
-                    password System.getProperty("mavenCentralPortalPassword", "none")
+                    username System.getenv("MAVEN_CENTRAL_PORTAL_USERNAME")
+                    password System.getenv("MAVEN_CENTRAL_PORTAL_PASSWORD")
                 }
             }
         }
     }
-//        repositories {
-//            maven {
-//                url "https://central.sonatype.com/repository/maven-snapshots/"
-//                credentials {
-//                    username System.getProperty("MAVEN_CENTRAL_PORTAL_USERNAME", "none")
-//                    password System.getProperty("MAVEN_CENTRAL_PORTAL_PASSWORD", "none")
-//                }
-//            }
-//        }
 
-//    if (!project.version.endsWith("-SNAPSHOT")) {
     signing {
         sign publishing.publications.mavenJava
     }
