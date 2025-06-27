@@ -121,8 +121,7 @@ publishing {
     if (project.version.endsWith("-SNAPSHOT")) {
         repositories {
             maven {
-//                url "https://central.sonatype.com/repository/maven-snapshots/"
-                url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url "https://central.sonatype.com/repository/maven-snapshots/"
                 credentials {
                     username System.getProperty("mavenCentralPortalUsername", "none")
                     password System.getProperty("mavenCentralPortalPassword", "none")
@@ -140,10 +139,9 @@ publishing {
 //            }
 //        }
 
-    if (!project.version.endsWith("-SNAPSHOT")) {
-        signing {
-            sign publishing.publications.mavenJava
-        }
+//    if (!project.version.endsWith("-SNAPSHOT")) {
+    signing {
+        sign publishing.publications.mavenJava
     }
 
 }
