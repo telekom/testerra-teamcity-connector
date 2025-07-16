@@ -5,7 +5,6 @@
 // Maven pom.xml attributes
 ext {
     libraryName = 'Testerra TeamCity Connector'
-    packagingType = 'jar'
     libraryDescription = "Testerra test automation framework - ${project.getName()} module"
 
     siteUrl = 'https://testerra.io'
